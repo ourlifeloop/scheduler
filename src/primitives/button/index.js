@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'redux-first-history';
 import classNames from 'classnames';
 
 import Spinner from 'primitives/spinner';
@@ -10,13 +9,13 @@ import styles from './styles.module.scss';
 export default function Button({
   children,
   className,
-  minimal,
+  link,
   primary,
   isLoading,
-  to,
   ...rest
 }) {
   const linkClass = classNames(className, styles.container, {
+    [styles.link]: link,
     'button-primary': primary,
   });
 
@@ -38,13 +37,6 @@ export default function Button({
     </>
   );
 
-  if (to) {
-    return (
-      <RouterLink {...rest} to={to} className={linkClass}>
-        {innerContent}
-      </RouterLink>
-    );
-  }
   return (
     <button {...rest} type="button" className={linkClass}>
       {innerContent}
@@ -54,15 +46,15 @@ export default function Button({
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   className: PropTypes.string,
   primary: PropTypes.bool,
   isLoading: PropTypes.bool,
+  link: PropTypes.bool,
 };
 
 Button.defaultProps = {
-  to: null,
   className: null,
   primary: false,
   isLoading: false,
+  link: false,
 };

@@ -29,7 +29,6 @@ export default function AuthenticationWrapper({
                   primary
                   isLoading={isLoggingIn}
                   onClick={() => authenticate()}
-                  className={styles.submit}
                 >
                   Submit
                 </Button>

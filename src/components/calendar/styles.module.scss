@@ -1,0 +1,34 @@
+@import '~styles/theme';
+
+.header {
+  background-color: $primary;
+  padding: 1rem 0;
+}
+
+.titleLink {
+  &:hover {
+    text-decoration: none;
+  }
+
+  h4 {
+    color: $light;
+    margin: 0;
+    transition: color 0.2s linear;
+
+    &:hover {
+      color: $medium-light;
+    }
+  }
+}
+
+.minorLink {
+  color: $light;
+  font-size: 1.6rem;
+  margin-left: 2rem;
+  text-decoration: none;
+  transition: color 0.2s linear;
+
+  &:hover {
+    color: $medium-light;
+  }
+}

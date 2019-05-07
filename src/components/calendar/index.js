@@ -1,5 +1,10 @@
-import React from 'react';
+import { connect } from 'react-redux';
 
-export default function Calendar() {
-  return <h1>Calendar</h1>;
-}
+import { signout } from 'store/actions/user.actions';
+
+import Calendar from './calendar';
+
+export default connect(
+  null,
+  { signout },
+)(Calendar);
