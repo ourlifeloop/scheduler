@@ -1,6 +1,7 @@
 # dependencies
 /node_modules
 .vscode
+.firebase
 
 # testing
 /coverage
