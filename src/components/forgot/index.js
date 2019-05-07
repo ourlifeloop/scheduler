@@ -1,37 +1,16 @@
-import React from 'react';
-import classNames from 'classnames';
-import { Link } from '@reach/router';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import FlexContainer from 'primitives/flex-container';
-import FormContainer from 'primitives/form-container';
+import { updateLoginForm } from 'store/actions/user.actions';
+import { getLoginForm } from 'store/selectors/base.selectors';
 
-import styles from './styles.module.scss';
+import Forgot from './forgot';
 
-export default function Forgot() {
-  return (
-    <FormContainer title="Forgot Password">
-      <label htmlFor="email">Email</label>
-      <input
-        className="u-full-width"
-        type="email"
-        placeholder="test@mailbox.com"
-        id="email"
-      />
-      <FlexContainer justify="spaceBetween" align="center">
-        <input
-          className={classNames('button-primary', styles.submit)}
-          type="submit"
-          value="Submit"
-        />
-        <FlexContainer>
-          <Link className={styles.link} to="/">
-            Login
-          </Link>
-          <Link className={styles.link} to="/signup">
-            Sign Up
-          </Link>
-        </FlexContainer>
-      </FlexContainer>
-    </FormContainer>
-  );
-}
+const mapStateToProps = createStructuredSelector({
+  loginForm: getLoginForm,
+});
+
+export default connect(
+  mapStateToProps,
+  { updateLoginForm },
+)(Forgot);

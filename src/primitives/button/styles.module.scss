@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+}
+
+.inner {
+  pointer-events: none;
+}
+
+.loading {
+  visibility: hidden;
+}
+
+.spinner {
+  left: calc(50% - 10px);
+  position: absolute;
+  top: calc(50% - 10px);
+}

@@ -6,9 +6,19 @@ import 'firebase/firestore';
 import 'firebase/auth';
 
 import { createAction } from 'utils/store';
-import { getPathname } from 'store/selectors/base.selectors.js';
-import { INITIALIZED, LOGGED_IN, SIGNED_OUT } from 'store/actions/user.actions';
-import { getCurrentUser, signout, login, signup } from 'store/api/user.api';
+import { getPathname, getLoginForm } from 'store/selectors/base.selectors';
+import {
+  INITIALIZED,
+  AUTHENTICATE,
+  SIGNED_OUT,
+} from 'store/actions/user.actions';
+import {
+  getCurrentUser,
+  signout,
+  login,
+  signup,
+  passwordReset,
+} from 'store/api/user.api';
 
 Firebase.initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -20,33 +30,39 @@ Firebase.initializeApp({
 });
 
 function* onLogin(user) {
-  yield put(createAction(LOGGED_IN.SUCCESS, { user }));
-  const pathname = yield select(getPathname);
-  if (pathname === '/') {
-    yield put(push('/dashboard'));
-  }
+  yield put(createAction(AUTHENTICATE.SUCCESS, { user }));
+  yield put(push('/calendar'));
 }
 
 function* loginFlow() {
   try {
-    const { key, form } = yield take(LOGGED_IN.PENDING);
+    yield take(AUTHENTICATE.PENDING);
+    const pathname = yield select(getPathname);
+    const form = yield select(getLoginForm);
     let loginUser;
-    if (key === 'signup') {
+    console.log(pathname, form);
+    if (pathname === '/signup') {
       loginUser = yield call(signup, form);
+    } else if (pathname === '/forgot') {
+      loginUser = yield call(passwordReset, form);
     } else {
       loginUser = yield call(login, form);
     }
-    loginUser = loginUser.user ? loginUser.user.toJSON() : loginUser.toJSON();
-    yield call(onLogin, loginUser);
+    if (loginUser) {
+      loginUser = loginUser.user ? loginUser.user.toJSON() : loginUser.toJSON();
+      yield call(onLogin, loginUser);
+    } else {
+      yield put(push('/'));
+    }
   } catch (error) {
-    yield put(createAction(LOGGED_IN.ERROR, { error: error.message }));
+    yield put(createAction(AUTHENTICATE.ERROR, { error: error.message }));
   }
 }
 
 function* signoutFlow() {
   try {
-    const action = yield take([LOGGED_IN.ERROR, SIGNED_OUT.PENDING]);
-    if (action.type === LOGGED_IN.ERROR) {
+    const action = yield take([AUTHENTICATE.ERROR, SIGNED_OUT.PENDING]);
+    if (action.type === AUTHENTICATE.ERROR) {
       return;
     }
     yield call(signout);

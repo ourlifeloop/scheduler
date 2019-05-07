@@ -1,8 +1,8 @@
 import {
-  LOGGED_IN,
+  AUTHENTICATE,
   SIGNED_OUT,
   INITIALIZED,
-  PASSWORD_RESET,
+  UPDATED_LOGIN_FORM,
 } from 'store/actions/user.actions';
 
 const initialLoginForm = {
@@ -23,21 +23,16 @@ export default function deck(state = initialState, action) {
   switch (action.type) {
     case INITIALIZED:
       return { ...state, isInitialized: true };
-    case LOGGED_IN.PENDING:
-    case PASSWORD_RESET.PENDING:
+    case AUTHENTICATE.PENDING:
       return { ...state, isLoggingIn: true, error: null };
-    case LOGGED_IN.ERROR:
-    case PASSWORD_RESET.ERROR:
+    case AUTHENTICATE.ERROR:
       return { ...state, isLoggingIn: false, error: action.error };
-    case PASSWORD_RESET.SUCCESS:
-      return { ...state, isLoginModalOpen: false };
-    case LOGGED_IN.SUCCESS:
+    case AUTHENTICATE.SUCCESS:
       return {
         ...state,
         error: null,
         isLoggingIn: false,
         isInitialized: true,
-        isLoginModalOpen: false,
         model: { ...(state.model || {}), ...action.user },
         userForm: {
           email: (action.user || {}).email,
@@ -45,6 +40,8 @@ export default function deck(state = initialState, action) {
           ...state.userForm,
         },
       };
+    case UPDATED_LOGIN_FORM:
+      return { ...state, loginForm: { ...state.loginForm, ...action.form } };
     case SIGNED_OUT.SUCCESS:
       return {
         ...initialState,
