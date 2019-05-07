@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from '@reach/router';
+import { LocationProvider, Router } from '@reach/router';
 import { Provider } from 'react-redux';
 
 import Login from 'components/login';
@@ -16,12 +16,14 @@ const { store, history } = createStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Login path="/" />
-      <Forgot path="/forgot" />
-      <Signup path="/signup" />
-      <Calendar path="/calendar" />
-    </Router>
+    <LocationProvider history={history}>
+      <Router>
+        <Login path="/" />
+        <Forgot path="/forgot" />
+        <Signup path="/signup" />
+        <Calendar path="/calendar" />
+      </Router>
+    </LocationProvider>
   </Provider>,
   document.getElementById('root'),
 );

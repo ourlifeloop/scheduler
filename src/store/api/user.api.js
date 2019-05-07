@@ -6,16 +6,7 @@ export const getCurrentUser = () =>
       if (!(user || {}).uid) {
         return resolve(null);
       }
-      return Firebase.firestore()
-        .collection('users')
-        .doc(user.uid)
-        .get()
-        .then(doc => {
-          if (doc.exists) {
-            resolve({ ...doc.data(), ...user.toJSON() });
-          }
-          resolve(user.toJSON());
-        });
+      return resolve(user.toJSON());
     });
   });
 

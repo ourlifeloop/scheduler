@@ -40,12 +40,12 @@ function* loginFlow() {
     const pathname = yield select(getPathname);
     const form = yield select(getLoginForm);
     let loginUser;
-    console.log(pathname, form);
     if (pathname === '/signup') {
       loginUser = yield call(signup, form);
     } else if (pathname === '/forgot') {
       loginUser = yield call(passwordReset, form);
     } else {
+      console.log('LOGIN');
       loginUser = yield call(login, form);
     }
     if (loginUser) {

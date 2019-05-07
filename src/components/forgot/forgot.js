@@ -32,7 +32,6 @@ export default function Forgot({ updateLoginForm, loginForm, authenticate }) {
 
 Forgot.propTypes = {
   updateLoginForm: PropTypes.func.isRequired,
-  authenticate: PropTypes.func.isRequired,
   loginForm: PropTypes.shape({
     email: PropTypes.string.isRequired,
   }),

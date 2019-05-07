@@ -4,6 +4,7 @@ import {
   INITIALIZED,
   UPDATED_LOGIN_FORM,
 } from 'store/actions/user.actions';
+import { LOCATION_CHANGE } from 'redux-first-history';
 
 const initialLoginForm = {
   email: '',
@@ -23,6 +24,8 @@ export default function deck(state = initialState, action) {
   switch (action.type) {
     case INITIALIZED:
       return { ...state, isInitialized: true };
+    case LOCATION_CHANGE:
+      return { ...state, error: null };
     case AUTHENTICATE.PENDING:
       return { ...state, isLoggingIn: true, error: null };
     case AUTHENTICATE.ERROR:
@@ -34,11 +37,6 @@ export default function deck(state = initialState, action) {
         isLoggingIn: false,
         isInitialized: true,
         model: { ...(state.model || {}), ...action.user },
-        userForm: {
-          email: (action.user || {}).email,
-          username: (action.user || {}).username || '',
-          ...state.userForm,
-        },
       };
     case UPDATED_LOGIN_FORM:
       return { ...state, loginForm: { ...state.loginForm, ...action.form } };
