@@ -1,12 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { Router } from '@reach/router';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import Login from 'components/login';
+import Forgot from 'components/forgot';
+import Signup from 'components/signup';
+import Calendar from 'components/calendar';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+import 'styles/global.scss';
+
+ReactDOM.render(
+  <Router>
+    <Login path="/" />
+    <Forgot path="/forgot" />
+    <Signup path="/signup" />
+    <Calendar path="/calendar" />
+  </Router>,
+  document.getElementById('root'),
+);
