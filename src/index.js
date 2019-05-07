@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { LocationProvider, Router } from '@reach/router';
 import { Provider } from 'react-redux';
 
+import Protected from 'components/protected-hoc';
 import Login from 'components/login';
 import Forgot from 'components/forgot';
 import Signup from 'components/signup';
@@ -13,6 +14,7 @@ import createStore from 'store';
 import 'styles/global.scss';
 
 const { store, history } = createStore();
+const ProtectedCalendar = Protected(Calendar);
 
 ReactDOM.render(
   <Provider store={store}>
@@ -21,7 +23,7 @@ ReactDOM.render(
         <Login path="/" />
         <Forgot path="/forgot" />
         <Signup path="/signup" />
-        <Calendar path="/calendar" />
+        <ProtectedCalendar path="/calendar" />
       </Router>
     </LocationProvider>
   </Provider>,

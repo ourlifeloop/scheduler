@@ -36,7 +36,7 @@ export default function deck(state = initialState, action) {
         error: null,
         isLoggingIn: false,
         isInitialized: true,
-        model: { ...(state.model || {}), ...action.user },
+        model: action.user ? { ...(state.model || {}), ...action.user } : null,
       };
     case UPDATED_LOGIN_FORM:
       return { ...state, loginForm: { ...state.loginForm, ...action.form } };

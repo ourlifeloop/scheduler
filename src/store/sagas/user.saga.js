@@ -31,7 +31,7 @@ Firebase.initializeApp({
 
 function* onLogin(user) {
   yield put(createAction(AUTHENTICATE.SUCCESS, { user }));
-  yield put(push('/calendar'));
+  yield put(push(user ? '/calendar' : '/'));
 }
 
 function* loginFlow() {
@@ -45,15 +45,12 @@ function* loginFlow() {
     } else if (pathname === '/forgot') {
       loginUser = yield call(passwordReset, form);
     } else {
-      console.log('LOGIN');
       loginUser = yield call(login, form);
     }
     if (loginUser) {
       loginUser = loginUser.user ? loginUser.user.toJSON() : loginUser.toJSON();
-      yield call(onLogin, loginUser);
-    } else {
-      yield put(push('/'));
     }
+    yield call(onLogin, loginUser);
   } catch (error) {
     yield put(createAction(AUTHENTICATE.ERROR, { error: error.message }));
   }
