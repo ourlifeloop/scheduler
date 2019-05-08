@@ -7,6 +7,8 @@ import BigCalendar from 'react-big-calendar';
 import EventCreationModal from 'components/event-creation-modal';
 import FlexContainer from 'primitives/flex-container';
 import Button from 'primitives/button';
+import { values } from 'constants/lodash';
+import { normalizeDate } from 'utils/time';
 
 import styles from './styles.module.scss';
 
@@ -20,7 +22,7 @@ const localizer = BigCalendar.momentLocalizer(moment);
 //   },
 // ];
 
-export default function Calendar({ signout, startForm }) {
+export default function Calendar({ signout, startForm, events }) {
   return (
     <>
       <div className={styles.header}>
@@ -49,11 +51,13 @@ export default function Calendar({ signout, startForm }) {
           <BigCalendar
             views={[BigCalendar.Views.MONTH]}
             localizer={localizer}
-            events={[]}
+            events={values(events)}
             style={{ height: '100%' }}
             selectable
             onSelectEvent={console.log}
-            onSelectSlot={({ start, end }) => startForm(start, end)}
+            onSelectSlot={({ start, end }) =>
+              startForm(normalizeDate(start), normalizeDate(end))
+            }
           />
         </div>
       </div>
@@ -65,4 +69,5 @@ export default function Calendar({ signout, startForm }) {
 Calendar.propTypes = {
   signout: PropTypes.func.isRequired,
   startForm: PropTypes.func.isRequired,
+  events: PropTypes.shape().isRequired,
 };

@@ -7,7 +7,7 @@ export const UPDATE_FORM = `${ACTION_PREFIX}/UPDATE_FORM`;
 export const RESET_FORM = `${ACTION_PREFIX}/RESET_FORM`;
 export const CANCEL_CREATE = `${ACTION_PREFIX}/CANCEL_CREATE`;
 export const CREATE_EVENT = createAsyncTypes(`${ACTION_PREFIX}/CREATE_EVENT`);
-export const UPDATE_EVENTS = createAsyncTypes(`${ACTION_PREFIX}/UPDATE_EVENTS`);
+export const FETCH_EVENTS = createAsyncTypes(`${ACTION_PREFIX}/FETCH_EVENTS`);
 
 export const startForm = (start, end) => ({ type: START_FORM, start, end });
 export const updateForm = form => ({ type: UPDATE_FORM, form });

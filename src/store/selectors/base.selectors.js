@@ -2,6 +2,7 @@
 export const getCalendarForm = state => state.calendar.form;
 export const getIsCreationModalOpen = state =>
   state.calendar.isCreationModalOpen;
+export const getEvents = state => state.calendar.models;
 
 /* Router */
 export const getPathname = state => state.router.location.pathname;

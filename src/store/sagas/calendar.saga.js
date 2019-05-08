@@ -1,8 +1,10 @@
 import { all, take, takeEvery, select, put, call } from 'redux-saga/effects';
 
 import { createAction } from 'utils/store';
+import { mapValues } from 'constants/lodash';
 import { getUser, getCalendarForm } from 'store/selectors/base.selectors';
-import { createEvent } from 'store/api/calendar.api';
+import { getEvents, createEvent } from 'store/api/calendar.api';
+import { AUTHENTICATE } from 'store/actions/user.actions';
 import {
   OPEN_CREATION_MODAL,
   START_FORM,
@@ -10,7 +12,27 @@ import {
   RESET_FORM,
   CANCEL_CREATE,
   CREATE_EVENT,
+  FETCH_EVENTS,
 } from 'store/actions/calendar.actions';
+
+function* fetchEvents() {
+  try {
+    yield put(createAction(FETCH_EVENTS.PENDING));
+    const events = yield call(getEvents);
+    yield put(
+      createAction(FETCH_EVENTS.SUCCESS, {
+        events: mapValues(events, event => ({
+          ...event,
+          created: event.created.toDate(),
+          start: event.start.toDate(),
+          end: event.end.toDate(),
+        })),
+      }),
+    );
+  } catch (error) {
+    yield put(createAction(FETCH_EVENTS.ERROR, { error }));
+  }
+}
 
 function* startForm({ start, end }) {
   const { uid, displayName } = yield select(getUser);
@@ -36,5 +58,8 @@ function* startForm({ start, end }) {
 }
 
 export default function*() {
-  yield all([takeEvery(START_FORM, startForm)]);
+  yield all([
+    takeEvery(AUTHENTICATE.SUCCESS, fetchEvents),
+    takeEvery(START_FORM, startForm),
+  ]);
 }

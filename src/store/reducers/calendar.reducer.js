@@ -3,6 +3,7 @@ import {
   UPDATE_FORM,
   RESET_FORM,
   CREATE_EVENT,
+  FETCH_EVENTS,
 } from 'store/actions/calendar.actions';
 
 const initialForm = {
@@ -39,6 +40,16 @@ export default function deck(state = initialState, action) {
       };
     case CREATE_EVENT.ERROR:
       return { ...state, isCreatingEvent: false };
+    case FETCH_EVENTS.PENDING:
+      return { ...state, isFetchingEvents: true };
+    case FETCH_EVENTS.SUCCESS:
+      return {
+        ...state,
+        models: { ...state.models, ...action.events },
+        isFetchingEvents: false,
+      };
+    case FETCH_EVENTS.ERROR:
+      return { ...state, isFetchingEvents: false };
     default:
       return state;
   }
