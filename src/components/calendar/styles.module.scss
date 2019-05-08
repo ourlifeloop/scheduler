@@ -2,6 +2,7 @@
 
 .header {
   background-color: $primary;
+  height: 40px;
   padding: 1rem 0;
 }
 
@@ -31,4 +32,9 @@
   &:hover {
     color: $medium-light;
   }
+}
+
+.calendar {
+  height: calc(100vh - 40px - 6rem);
+  padding: 2rem 0;
 }

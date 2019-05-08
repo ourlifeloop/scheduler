@@ -1,13 +1,32 @@
 import React from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Link } from '@reach/router';
+import BigCalendar from 'react-big-calendar';
 
 import FlexContainer from 'primitives/flex-container';
 import Button from 'primitives/button';
+import Modal from 'primitives/modal';
 
 import styles from './styles.module.scss';
 
-export default function Calendar({ signout }) {
+const localizer = BigCalendar.momentLocalizer(moment);
+
+// const events = [
+//   {
+//     start: new Date(),
+//     end: new Date(moment().add(1, 'days')),
+//     title: 'Some title',
+//   },
+// ];
+
+export default function Calendar({
+  signout,
+  startForm,
+  cancelCreate,
+  createEvent,
+  isCreationModalOpen,
+}) {
   return (
     <>
       <div className={styles.header}>
@@ -31,10 +50,39 @@ export default function Calendar({ signout }) {
           </FlexContainer>
         </div>
       </div>
+      <div className="container">
+        <div className={styles.calendar}>
+          <BigCalendar
+            views={[BigCalendar.Views.MONTH]}
+            localizer={localizer}
+            events={[]}
+            style={{ height: '100%' }}
+            selectable
+            onSelectEvent={console.log}
+            onSelectSlot={({ start, end }) => startForm(start, end)}
+          />
+        </div>
+      </div>
+      <Modal
+        title="Create Event"
+        onCancel={cancelCreate}
+        isOpen={isCreationModalOpen}
+        actionButtons={[
+          <Button key="create" primary onClick={createEvent}>
+            Create
+          </Button>,
+        ]}
+      >
+        Create Event
+      </Modal>
     </>
   );
 }
 
 Calendar.propTypes = {
   signout: PropTypes.func.isRequired,
+  startForm: PropTypes.func.isRequired,
+  cancelCreate: PropTypes.func.isRequired,
+  createEvent: PropTypes.func.isRequired,
+  isCreationModalOpen: PropTypes.bool.isRequired,
 };
