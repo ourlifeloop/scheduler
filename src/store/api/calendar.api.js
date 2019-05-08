@@ -1,9 +1,9 @@
 import Firebase from 'firebase/app';
 
-export const getEventForMonth = (year, month) =>
+export const getEventForMonth = monthKey =>
   Firebase.firestore()
     .collection('events')
-    .where('months', 'array-contains', `${year}-${month}`)
+    .where('months', 'array-contains', monthKey)
     .get()
     .then(typeSnapshot => {
       let events = {};

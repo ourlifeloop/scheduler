@@ -5,6 +5,7 @@ import {
   CREATE_EVENT,
   FETCH_EVENTS,
 } from 'store/actions/calendar.actions';
+import { uniq } from 'constants/lodash';
 
 const initialForm = {
   title: '',
@@ -18,6 +19,7 @@ const initialState = {
   isFetchingEvents: false,
   isCreatingEvent: false,
   form: initialForm,
+  months: [],
   models: {},
 };
 
@@ -46,6 +48,7 @@ export default function deck(state = initialState, action) {
       return {
         ...state,
         models: { ...state.models, ...action.events },
+        months: uniq([...state.months, action.month].filter(m => m)),
         isFetchingEvents: false,
       };
     case FETCH_EVENTS.ERROR:

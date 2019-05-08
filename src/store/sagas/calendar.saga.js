@@ -2,7 +2,7 @@ import { all, take, takeEvery, select, put, call } from 'redux-saga/effects';
 import moment from 'moment';
 
 import { createAction } from 'utils/store';
-import { getMonthsInRange } from 'utils/time';
+import { getMonthsInRange, toMonthKey, normalizeDate } from 'utils/time';
 import { mapValues } from 'constants/lodash';
 import { getUser, getCalendarForm } from 'store/selectors/base.selectors';
 import { getEventForMonth, createEvent } from 'store/api/calendar.api';
@@ -20,13 +20,11 @@ import {
 function* fetchEvents() {
   try {
     yield put(createAction(FETCH_EVENTS.PENDING));
-    const events = yield call(
-      getEventForMonth,
-      moment().year(),
-      moment().month(),
-    );
+    const month = toMonthKey(moment().startOf('month'));
+    const events = yield call(getEventForMonth, month);
     yield put(
       createAction(FETCH_EVENTS.SUCCESS, {
+        month,
         events: mapValues(events, event => ({
           ...event,
           created: event.created.toDate(),

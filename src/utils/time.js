@@ -8,6 +8,9 @@ export const normalizeDate = date =>
     .millisecond(0)
     .toDate();
 
+export const toMonthKey = date =>
+  `${moment(date).year()}-${moment(date).month()}`;
+
 // Don't iterate more than 24 months just to be safe
 export const getMonthsInRange = (start, end) => {
   const months = [];
