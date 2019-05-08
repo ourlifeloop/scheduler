@@ -10,6 +10,7 @@ const initialLoginForm = {
   email: '',
   password: '',
   confirm: '',
+  displayName: '',
 };
 
 const initialState = {

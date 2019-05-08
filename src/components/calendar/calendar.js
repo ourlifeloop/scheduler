@@ -97,7 +97,7 @@ export default function Calendar({
           </div>
         </div>
         <div className="row">
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">Name</label>
           <input
             type="text"
             className="u-full-width"

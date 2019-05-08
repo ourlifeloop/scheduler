@@ -10,14 +10,21 @@ export const getCurrentUser = () =>
     });
   });
 
-export const signup = ({ email, password, confirm }) => {
+export const signup = ({ email, password, confirm, displayName }) => {
   if (!email || !password) {
     throw new Error('Email and password are required.');
   }
   if (password !== confirm) {
     throw new Error('Passwords do not match.');
   }
-  return Firebase.auth().createUserWithEmailAndPassword(email, password);
+  if (!displayName) {
+    throw new Error('Full name must be provided');
+  }
+  return Firebase.auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(response =>
+      response.user.updateProfile({ displayName }).then(() => response),
+    );
 };
 
 export const login = ({ email, password }) => {

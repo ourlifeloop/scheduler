@@ -26,6 +26,15 @@ export default function Signup({ updateLoginForm, loginForm }) {
         placeholder="test@mailbox.com"
         id="email"
       />
+      <label htmlFor="name">Full Name</label>
+      <input
+        onChange={e => updateLoginForm({ displayName: e.target.value })}
+        value={loginForm.displayName}
+        className="u-full-width"
+        type="text"
+        placeholder="First Last"
+        id="name"
+      />
       <label htmlFor="password">Password</label>
       <input
         onChange={e => updateLoginForm({ password: e.target.value })}
