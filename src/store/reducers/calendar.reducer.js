@@ -10,6 +10,7 @@ import { uniq } from 'constants/lodash';
 const initialForm = {
   title: '',
   description: '',
+  reason: '',
   start: null,
   end: null,
 };

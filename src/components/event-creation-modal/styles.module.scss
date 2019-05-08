@@ -2,3 +2,14 @@
   height: 100px;
   resize: none;
 }
+
+.select {
+  margin-bottom: 1.5rem;
+}
+
+:global(.react-select__input) {
+  input {
+    height: initial !important;
+    margin: 0;
+  }
+}

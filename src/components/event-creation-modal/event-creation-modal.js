@@ -1,12 +1,30 @@
 import React from 'react';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
 
+import REASONS from 'constants/reasons';
+import { map } from 'constants/lodash';
 import Button from 'primitives/button';
 import Modal from 'primitives/modal';
 
 import styles from './styles.module.scss';
+
+const dot = (color = '#ccc') => ({
+  alignItems: 'center',
+  display: 'flex',
+
+  ':before': {
+    backgroundColor: color,
+    borderRadius: 10,
+    content: '" "',
+    display: 'block',
+    marginRight: 8,
+    height: 10,
+    width: 10,
+  },
+});
 
 export default function EventCreationModal({
   updateForm,
@@ -27,8 +45,31 @@ export default function EventCreationModal({
       ]}
     >
       <div className="row">
+        <label htmlFor="reason">Reason *</label>
+        <Select
+          className={styles.select}
+          classNamePrefix="react-select"
+          onChange={({ value }) => updateForm({ reason: value })}
+          styles={{
+            option: (styles, { data }) => ({
+              ...styles,
+              ...dot(data.color),
+            }),
+            singleValue: (styles, { data }) => ({
+              ...styles,
+              ...dot(data.color),
+            }),
+          }}
+          options={map(REASONS, ({ key, title, color }) => ({
+            value: key,
+            label: title,
+            color,
+          }))}
+        />
+      </div>
+      <div className="row">
         <div className="one-half column">
-          <label htmlFor="start">Start Date</label>
+          <label htmlFor="start">Start Date *</label>
           <DatePicker
             className="u-full-width"
             onChange={start => updateForm({ start })}
@@ -37,7 +78,7 @@ export default function EventCreationModal({
           />
         </div>
         <div className="one-half column">
-          <label htmlFor="end">End Date</label>
+          <label htmlFor="end">End Date *</label>
           <DatePicker
             onChange={end => updateForm({ end })}
             selected={form.end}
@@ -46,11 +87,11 @@ export default function EventCreationModal({
         </div>
       </div>
       <div className="row">
-        <label htmlFor="title">Name</label>
+        <label htmlFor="title">Name *</label>
         <input
           type="text"
           className="u-full-width"
-          disabled
+          onChange={e => updateForm({ title: e.target.value })}
           value={form.title}
           id="title"
         />

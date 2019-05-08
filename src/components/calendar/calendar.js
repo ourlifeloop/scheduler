@@ -9,6 +9,7 @@ import FlexContainer from 'primitives/flex-container';
 import Button from 'primitives/button';
 import { values } from 'constants/lodash';
 import { normalizeDate } from 'utils/time';
+import REASONS from 'constants/reasons';
 
 import styles from './styles.module.scss';
 
@@ -59,6 +60,9 @@ export default function Calendar({ signout, fetchMonth, startForm, events }) {
             onSelectSlot={({ start, end }) =>
               startForm(normalizeDate(start), normalizeDate(end))
             }
+            eventPropGetter={event => ({
+              style: { backgroundColor: REASONS[event.reason].color },
+            })}
           />
         </div>
       </div>
