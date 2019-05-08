@@ -1,7 +1,7 @@
 service cloud.firestore {
   match /databases/{database}/documents {
     function validAccount(userEmail){
-      return userEmail.split('@')[1] == 'ourlifeloop.com' && userEmail.split('@').length == 2;
+      return userEmail.split('@')[1] == 'ourlifeloop.com';
     }
     
     function validAuth(auth) {

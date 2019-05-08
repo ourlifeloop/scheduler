@@ -1,7 +1,8 @@
-import { all, take, takeEvery, select, put } from 'redux-saga/effects';
+import { all, take, takeEvery, select, put, call } from 'redux-saga/effects';
 
 import { createAction } from 'utils/store';
-import { getUser } from 'store/selectors/base.selectors';
+import { getUser, getCalendarForm } from 'store/selectors/base.selectors';
+import { createEvent } from 'store/api/calendar.api';
 import {
   OPEN_CREATION_MODAL,
   START_FORM,
@@ -12,7 +13,7 @@ import {
 } from 'store/actions/calendar.actions';
 
 function* startForm({ start, end }) {
-  const { displayName } = yield select(getUser);
+  const { uid, displayName } = yield select(getUser);
   yield put(
     createAction(UPDATE_FORM, { form: { title: displayName, start, end } }),
   );
@@ -20,7 +21,15 @@ function* startForm({ start, end }) {
 
   const { type } = yield take([CANCEL_CREATE, CREATE_EVENT.PENDING]);
   if (type === CREATE_EVENT.PENDING) {
-    // Create api
+    const event = yield select(getCalendarForm);
+    try {
+      const eventObj = yield call(createEvent, event, uid);
+
+      yield put(createAction(CREATE_EVENT.SUCCESS, { event: eventObj }));
+    } catch (error) {
+      console.log(error);
+      yield put(createAction(CREATE_EVENT.ERROR, { error }));
+    }
   }
 
   yield put(createAction(RESET_FORM));
