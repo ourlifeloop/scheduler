@@ -15,3 +15,4 @@ export const cancelCreate = () => ({ type: CANCEL_CREATE });
 export const createEvent = () => ({
   type: CREATE_EVENT.PENDING,
 });
+export const fetchMonth = date => ({ type: FETCH_EVENTS.PENDING, date });

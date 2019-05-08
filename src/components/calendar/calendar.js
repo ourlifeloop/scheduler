@@ -22,7 +22,7 @@ const localizer = BigCalendar.momentLocalizer(moment);
 //   },
 // ];
 
-export default function Calendar({ signout, startForm, events }) {
+export default function Calendar({ signout, fetchMonth, startForm, events }) {
   return (
     <>
       <div className={styles.header}>
@@ -49,12 +49,13 @@ export default function Calendar({ signout, startForm, events }) {
       <div className="container">
         <div className={styles.calendar}>
           <BigCalendar
+            selectable
             views={[BigCalendar.Views.MONTH]}
             localizer={localizer}
             events={values(events)}
             style={{ height: '100%' }}
-            selectable
             onSelectEvent={console.log}
+            onNavigate={date => fetchMonth(date)}
             onSelectSlot={({ start, end }) =>
               startForm(normalizeDate(start), normalizeDate(end))
             }
@@ -68,6 +69,7 @@ export default function Calendar({ signout, startForm, events }) {
 
 Calendar.propTypes = {
   signout: PropTypes.func.isRequired,
+  fetchMonth: PropTypes.func.isRequired,
   startForm: PropTypes.func.isRequired,
   events: PropTypes.shape().isRequired,
 };

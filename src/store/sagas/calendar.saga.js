@@ -2,9 +2,13 @@ import { all, take, takeEvery, select, put, call } from 'redux-saga/effects';
 import moment from 'moment';
 
 import { createAction } from 'utils/store';
-import { getMonthsInRange, toMonthKey, normalizeDate } from 'utils/time';
+import { getMonthsInRange, toMonthKey } from 'utils/time';
 import { mapValues } from 'constants/lodash';
-import { getUser, getCalendarForm } from 'store/selectors/base.selectors';
+import {
+  getUser,
+  getCalendarForm,
+  getCalendarMonths,
+} from 'store/selectors/base.selectors';
 import { getEventForMonth, createEvent } from 'store/api/calendar.api';
 import { AUTHENTICATE } from 'store/actions/user.actions';
 import {
@@ -17,10 +21,13 @@ import {
   FETCH_EVENTS,
 } from 'store/actions/calendar.actions';
 
-function* fetchEvents() {
+function* fetchEvents({ date }) {
   try {
-    yield put(createAction(FETCH_EVENTS.PENDING));
-    const month = toMonthKey(moment().startOf('month'));
+    const months = yield select(getCalendarMonths);
+    const month = toMonthKey(moment(date).startOf('month'));
+    if (months.indexOf(month) >= 0) {
+      return yield put(createAction(FETCH_EVENTS.SUCCESS, { events: {} }));
+    }
     const events = yield call(getEventForMonth, month);
     yield put(
       createAction(FETCH_EVENTS.SUCCESS, {
@@ -37,6 +44,10 @@ function* fetchEvents() {
     console.error(error);
     yield put(createAction(FETCH_EVENTS.ERROR, { error }));
   }
+}
+
+function* initialize() {
+  yield put(createAction(FETCH_EVENTS.PENDING, { date: moment() }));
 }
 
 function* startForm({ start, end }) {
@@ -69,7 +80,8 @@ function* startForm({ start, end }) {
 
 export default function*() {
   yield all([
-    takeEvery(AUTHENTICATE.SUCCESS, fetchEvents),
+    takeEvery(AUTHENTICATE.SUCCESS, initialize),
+    takeEvery(FETCH_EVENTS.PENDING, fetchEvents),
     takeEvery(START_FORM, startForm),
   ]);
 }
