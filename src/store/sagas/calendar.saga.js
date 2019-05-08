@@ -1,9 +1,11 @@
 import { all, take, takeEvery, select, put, call } from 'redux-saga/effects';
+import moment from 'moment';
 
 import { createAction } from 'utils/store';
+import { getMonthsInRange } from 'utils/time';
 import { mapValues } from 'constants/lodash';
 import { getUser, getCalendarForm } from 'store/selectors/base.selectors';
-import { getEvents, createEvent } from 'store/api/calendar.api';
+import { getEventForMonth, createEvent } from 'store/api/calendar.api';
 import { AUTHENTICATE } from 'store/actions/user.actions';
 import {
   OPEN_CREATION_MODAL,
@@ -18,7 +20,11 @@ import {
 function* fetchEvents() {
   try {
     yield put(createAction(FETCH_EVENTS.PENDING));
-    const events = yield call(getEvents);
+    const events = yield call(
+      getEventForMonth,
+      moment().year(),
+      moment().month(),
+    );
     yield put(
       createAction(FETCH_EVENTS.SUCCESS, {
         events: mapValues(events, event => ({
@@ -30,6 +36,7 @@ function* fetchEvents() {
       }),
     );
   } catch (error) {
+    console.error(error);
     yield put(createAction(FETCH_EVENTS.ERROR, { error }));
   }
 }
@@ -43,13 +50,18 @@ function* startForm({ start, end }) {
 
   const { type } = yield take([CANCEL_CREATE, CREATE_EVENT.PENDING]);
   if (type === CREATE_EVENT.PENDING) {
-    const event = yield select(getCalendarForm);
     try {
-      const eventObj = yield call(createEvent, event, uid);
+      let event = yield select(getCalendarForm);
+      event = {
+        ...event,
+        creator: uid,
+        months: getMonthsInRange(event.start, event.end),
+      };
 
+      const eventObj = yield call(createEvent, event);
       yield put(createAction(CREATE_EVENT.SUCCESS, { event: eventObj }));
     } catch (error) {
-      console.log(error);
+      console.error(error);
       yield put(createAction(CREATE_EVENT.ERROR, { error }));
     }
   }

@@ -1,8 +1,9 @@
 import Firebase from 'firebase/app';
 
-export const getEvents = () =>
+export const getEventForMonth = (year, month) =>
   Firebase.firestore()
     .collection('events')
+    .where('months', 'array-contains', `${year}-${month}`)
     .get()
     .then(typeSnapshot => {
       let events = {};
@@ -15,10 +16,9 @@ export const getEvents = () =>
       return events;
     });
 
-export const createEvent = (event, uid) => {
+export const createEvent = event => {
   const doc = {
     ...event,
-    creator: uid,
     created: Firebase.firestore.FieldValue.serverTimestamp(),
   };
   return Firebase.firestore()
