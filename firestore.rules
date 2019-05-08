@@ -1,5 +1,17 @@
 service cloud.firestore {
   match /databases/{database}/documents {
+    function validAccount(userEmail){
+      return userEmail.split('@')[1] == 'ourlifeloop.com' && userEmail.split('@').length == 2;
+    }
+    
+    function validAuth(auth) {
+      return auth != null && validAccount(auth.token.email)
+    }
+
+    match /events/{eventId} {
+      allow read, create: if validAuth(request.auth);
+      allow update, delete: if validAuth(request.auth) && resource.data.creator == request.auth.uid;
+    }
     match /{document=**} {
       allow read, write: if false;
     }
