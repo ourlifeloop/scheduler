@@ -1,9 +1,13 @@
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { getIsCreationModalOpen } from 'store/selectors/base.selectors';
+import {
+  getIsCreationModalOpen,
+  getCalendarForm,
+} from 'store/selectors/base.selectors';
 import {
   startForm,
+  updateForm,
   cancelCreate,
   createEvent,
 } from 'store/actions/calendar.actions';
@@ -13,9 +17,10 @@ import Calendar from './calendar';
 
 const mapStateToProps = createStructuredSelector({
   isCreationModalOpen: getIsCreationModalOpen,
+  form: getCalendarForm,
 });
 
 export default connect(
   mapStateToProps,
-  { startForm, cancelCreate, createEvent, signout },
+  { startForm, updateForm, cancelCreate, createEvent, signout },
 )(Calendar);

@@ -9,7 +9,7 @@ export const CANCEL_CREATE = `${ACTION_PREFIX}/CANCEL_CREATE`;
 export const CREATE_EVENT = createAsyncTypes(`${ACTION_PREFIX}/CREATE_EVENT`);
 
 export const startForm = (start, end) => ({ type: START_FORM, start, end });
-export const updateCalendarForm = form => ({ type: RESET_FORM, form });
+export const updateForm = form => ({ type: UPDATE_FORM, form });
 export const cancelCreate = () => ({ type: CANCEL_CREATE });
 export const createEvent = () => ({
   type: CREATE_EVENT.PENDING,

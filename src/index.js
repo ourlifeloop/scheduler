@@ -12,6 +12,7 @@ import Calendar from 'components/calendar';
 import createStore from 'store';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import 'styles/global.scss';
 
 const { store, history } = createStore();
