@@ -1,7 +1,8 @@
 import moment from 'moment';
 
 export const normalizeDate = date =>
-  moment(date)
+  moment
+    .utc(date)
     .hour(12)
     .minute(0)
     .second(0)

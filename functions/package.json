@@ -15,7 +15,8 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "firebase-admin": "~7.0.0",
-    "firebase-functions": "^2.3.0"
+    "firebase-functions": "^2.3.0",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "eslint": "^5.12.0",

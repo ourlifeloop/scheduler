@@ -1,0 +1,135 @@
+[debug] [2019-05-08T23:25:20.280Z] ----------------------------------------------------------------------
+[debug] [2019-05-08T23:25:20.282Z] Command:       /Users/mitchelpigsley/.nvm/versions/node/v8.11.3/bin/node /Users/mitchelpigsley/Developer/discord-scheduler/node_modules/.bin/firebase deploy
+[debug] [2019-05-08T23:25:20.282Z] CLI Version:   6.9.0
+[debug] [2019-05-08T23:25:20.282Z] Platform:      darwin
+[debug] [2019-05-08T23:25:20.283Z] Node Version:  v8.11.3
+[debug] [2019-05-08T23:25:20.283Z] Time:          Wed May 08 2019 18:25:20 GMT-0500 (CDT)
+[debug] [2019-05-08T23:25:20.283Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-05-08T23:25:20.291Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-05-08T23:25:20.291Z] > authorizing via signed-in user
+[debug] [2019-05-08T23:25:20.291Z] [iam] checking project discord-scheduler for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-05-08T23:25:20.293Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/discord-scheduler:testIamPermissions  
+
+[debug] [2019-05-08T23:25:20.950Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:20.952Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/discord-scheduler  
+ 
+[debug] [2019-05-08T23:25:21.276Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'discord-scheduler'...
+[info] 
+[info] i  deploying firestore, functions, hosting
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] ✔  functions: Finished running predeploy script.
+[info] i  firestore: checking firestore.rules for compilation errors...
+[info] i  firestore: reading indexes from firestore.indexes.json...
+[debug] [2019-05-08T23:25:24.623Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/discord-scheduler:test  
+
+[debug] [2019-05-08T23:25:24.891Z] <<< HTTP RESPONSE 200
+[info] ✔  firestore: rules file firestore.rules compiled successfully
+[debug] [2019-05-08T23:25:24.892Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "firebase-admin": "~7.0.0",
+    "firebase-functions": "^2.3.0",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-plugin-promise": "^4.0.1"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2019-05-08T23:25:24.893Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/discord-scheduler?view=CONSUMER_VIEW  
+ 
+[debug] [2019-05-08T23:25:24.893Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/discord-scheduler?view=CONSUMER_VIEW  
+ 
+[debug] [2019-05-08T23:25:25.796Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:25.798Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2019-05-08T23:25:25.798Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/discord-scheduler  
+ 
+[debug] [2019-05-08T23:25:26.047Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:26.048Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/80949802991:getServerAppConfig  
+ 
+[debug] [2019-05-08T23:25:26.326Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:26.328Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/discord-scheduler/versions  
+
+[debug] [2019-05-08T23:25:27.083Z] <<< HTTP RESPONSE 200
+[info] i  firestore: uploading rules firestore.rules...
+[debug] [2019-05-08T23:25:27.085Z] >>> HTTP REQUEST POST https://firebaserules.googleapis.com/v1/projects/discord-scheduler/rulesets  
+
+[debug] [2019-05-08T23:25:27.086Z] >>> HTTP REQUEST GET https://firestore.googleapis.com/v1beta2/projects/discord-scheduler/databases/(default)/collectionGroups/-/indexes  
+ 
+[debug] [2019-05-08T23:25:27.320Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:27.320Z] [rules] created ruleset projects/discord-scheduler/rulesets/132dc0f1-6970-475e-a82d-c7cda7bdd0bd
+[debug] [2019-05-08T23:25:27.475Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:27.475Z] >>> HTTP REQUEST GET https://firestore.googleapis.com/v1beta2/projects/discord-scheduler/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false  
+ 
+[debug] [2019-05-08T23:25:27.811Z] <<< HTTP RESPONSE 200
+[info] ✔  firestore: deployed indexes in firestore.indexes.json successfully
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2019-05-08T23:25:27.814Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/discord-scheduler/configs  
+ 
+[debug] [2019-05-08T23:25:28.153Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:28.153Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/discord-scheduler/configs/discord/variables  
+ 
+[debug] [2019-05-08T23:25:28.715Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:28.716Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/discord-scheduler/configs/discord/variables/channel  
+ 
+[debug] [2019-05-08T23:25:28.716Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/discord-scheduler/configs/discord/variables/token  
+ 
+[debug] [2019-05-08T23:25:28.919Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:29.183Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (40.79 KB) for uploading
+[debug] [2019-05-08T23:25:29.450Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/discord-scheduler/locations/us-central1/functions:generateUploadUrl  
+ 
+[debug] [2019-05-08T23:25:29.864Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:29.865Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-140fc22d-a6ca-4ce7-a5da-5c7681ed7a50/6248d603-2ee6-47b1-964d-611f821c0f62.zip?GoogleAccessId=service-80949802991@gcf-admin-robot.iam.gserviceaccount.com&Expires=1557359729&Signature=kEQT99NySVQunsepnhEh4zb%2FG%2BZtEDtCjdBL1EFPmvI8B%2FIwtymm8qV8VIrdZxSYuyRHMmZDAqRF3RT92%2Bsw4wI8AYMvDp4hwgpSyyQjb2Da7qoho%2FJPtcxrcNLhxCaCSAGVy%2BRbWykQ3p8FziB9M1ANDOURl3eMCjiwzvMMxlAoQJWlOXnCUmxv%2F%2FPi4y5%2FjkFWFBThIjMklDv6nWwAssDV368cp6BmkUyhK6dYpuEpy3u60zmbONL9DO0IlQ4BTqesmeZEz9xFBoXpZlNlwx7HIK9Lnc1URSeEA2OPcw6WKaOjsZO0UGrPy3qlQcaGAp%2F1PTUKhKhlYj6u5FIvgA%3D%3D  
+
+[debug] [2019-05-08T23:25:30.389Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: functions folder uploaded successfully
+[info] i  hosting[discord-scheduler]: beginning deploy...
+[info] i  hosting[discord-scheduler]: found 16 files in build
+[debug] [2019-05-08T23:25:30.399Z] [hosting] hash cache [YnVpbGQ] load error: lines is not defined
+[debug] [2019-05-08T23:25:31.166Z] [hosting] hash cache [YnVpbGQ] stored for 16 files
+[debug] [2019-05-08T23:25:31.166Z] [hosting][hash queue][FINAL]
+[debug] [2019-05-08T23:25:31.166Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/discord-scheduler/versions/fc4ade1cccb5da2e:populateFiles  
+ <request body omitted>
+[debug] [2019-05-08T23:25:31.712Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:31.717Z] [hosting][populate queue][FINAL]
+[debug] [2019-05-08T23:25:31.717Z] [hosting] uploads queued: 6
+[debug] [2019-05-08T23:25:34.589Z] [hosting][upload queue][FINAL]
+[info] ✔  hosting[discord-scheduler]: file upload complete
+[debug] [2019-05-08T23:25:34.589Z] [hosting] deploy completed after 4199ms
+[debug] [2019-05-08T23:25:34.771Z] [rules] releasing cloud.firestore with ruleset projects/discord-scheduler/rulesets/132dc0f1-6970-475e-a82d-c7cda7bdd0bd
+[debug] [2019-05-08T23:25:34.771Z] >>> HTTP REQUEST PATCH https://firebaserules.googleapis.com/v1/projects/discord-scheduler/releases/cloud.firestore  
+
+[debug] [2019-05-08T23:25:35.052Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-08T23:25:35.052Z] [rules] updated release projects/discord-scheduler/releases/cloud.firestore
+[info] ✔  firestore: released rules firestore.rules to cloud.firestore
+[debug] [2019-05-08T23:25:35.055Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/discord-scheduler/locations/-/functions  
+ 
+[debug] [2019-05-08T23:25:35.517Z] <<< HTTP RESPONSE 200
+[info] i  functions: updating Node.js 8 function notifyDiscord(us-central1)...
+[debug] [2019-05-08T23:25:35.520Z] Trigger is:  {"eventTrigger":{"resource":"projects/discord-scheduler/topics/firebase-schedule-notifyDiscord-us-central1","eventType":"google.pubsub.topic.publish","service":"pubsub.googleapis.com"}}
+[info] i  scheduler: ensuring necessary APIs are enabled...
+[info] i  pubsub: ensuring necessary APIs are enabled...
+[debug] [2019-05-08T23:25:35.522Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudscheduler.googleapis.com/projectSettings/discord-scheduler?view=CONSUMER_VIEW  
+ 
+[debug] [2019-05-08T23:25:35.522Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/pubsub.googleapis.com/projectSettings/discord-scheduler?view=CONSUMER_VIEW  
+ 
