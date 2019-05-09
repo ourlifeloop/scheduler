@@ -27,8 +27,8 @@ This project uses firebase on the backend to handle authentication, database, ho
 10. Back in your project's root run...
 
 ```
-`$(npm bin)/firebase functions:config:set discord.token="BOT_TOKEN"`
-`$(npm bin)/firebase functions:config:set discord.channel="CHANNEL_NAME"`
+$(npm bin)/firebase functions:config:set discord.token="BOT_TOKEN"
+$(npm bin)/firebase functions:config:set discord.channel="CHANNEL_NAME"
 ```
 
 11. Navigate in a browser to `https://discordapp.com/api/oauth2/authorize?client_id=CLIENT_ID&scope=bot&permissions=1` and replace the client id
