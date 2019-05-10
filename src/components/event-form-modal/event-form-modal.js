@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
 
 import REASONS from 'constants/reasons';
-import { map } from 'constants/lodash';
+import { find, map } from 'constants/lodash';
 import Button from 'primitives/button';
 import Modal from 'primitives/modal';
 
@@ -26,6 +26,12 @@ const dot = (color = '#ccc') => ({
   },
 });
 
+const REASON_OPTIONS = map(REASONS, ({ key, title, color }) => ({
+  value: key,
+  label: title,
+  color,
+}));
+
 export default function EventFormModal({
   updateForm,
   cancelForm,
@@ -33,14 +39,15 @@ export default function EventFormModal({
   isEventFormModalOpen,
   form,
 }) {
+  const action = form.id ? 'Edit' : 'Create';
   return (
     <Modal
-      title="Create Event"
+      title={`${action} Event`}
       onCancel={cancelForm}
       isOpen={isEventFormModalOpen}
       actionButtons={[
-        <Button key="create" primary onClick={createEvent}>
-          Create
+        <Button key="modify" primary onClick={createEvent}>
+          {action}
         </Button>,
       ]}
     >
@@ -49,7 +56,9 @@ export default function EventFormModal({
         <Select
           className={styles.select}
           classNamePrefix="react-select"
+          value={find(REASON_OPTIONS, { value: form.reason })}
           onChange={({ value }) => updateForm({ reason: value })}
+          options={REASON_OPTIONS}
           styles={{
             option: (styles, { data }) => ({
               ...styles,
@@ -60,11 +69,6 @@ export default function EventFormModal({
               ...dot(data.color),
             }),
           }}
-          options={map(REASONS, ({ key, title, color }) => ({
-            value: key,
-            label: title,
-            color,
-          }))}
         />
       </div>
       <div className="row">

@@ -3,22 +3,24 @@ import moment from 'moment';
 
 import { createAction } from 'utils/store';
 import { getMonthsInRange, toMonthKey } from 'utils/time';
-import { mapValues } from 'constants/lodash';
+import { mapValues, omit } from 'constants/lodash';
 import {
   getUser,
+  getEvents,
   getCalendarForm,
   getCalendarMonths,
 } from 'store/selectors/base.selectors';
 import { getEventForMonth, createEvent } from 'store/api/calendar.api';
 import { AUTHENTICATE } from 'store/actions/user.actions';
 import {
-  OPEN_CREATION_MODAL,
+  OPEN_EVENT_MODAL,
   START_FORM,
   UPDATE_FORM,
   RESET_FORM,
   CANCEL_CREATE,
   CREATE_EVENT,
   FETCH_EVENTS,
+  SELECT_EVENT,
 } from 'store/actions/calendar.actions';
 
 function* fetchEvents({ date }) {
@@ -51,12 +53,28 @@ function* initialize() {
   yield put(createAction(FETCH_EVENTS.PENDING, { date: moment() }));
 }
 
-function* startForm({ start, end }) {
+function* eventSelection({ key }) {
+  const events = yield select(getEvents);
+  const selectedEvent = events[key];
+  if (!selectedEvent) {
+    console.log('Selected event does not exist... WHAT!?', key);
+    return;
+  }
+
+  const { uid } = yield select(getUser);
+  if (selectedEvent.creator === uid) {
+    yield put(createAction(START_FORM, selectedEvent));
+  }
+}
+
+function* startForm(evt) {
   const { uid, displayName } = yield select(getUser);
   yield put(
-    createAction(UPDATE_FORM, { form: { title: displayName, start, end } }),
+    createAction(UPDATE_FORM, {
+      form: { ...omit(evt, 'type'), title: displayName },
+    }),
   );
-  yield put(createAction(OPEN_CREATION_MODAL));
+  yield put(createAction(OPEN_EVENT_MODAL));
 
   const { type } = yield take([CANCEL_CREATE, CREATE_EVENT.PENDING]);
   if (type === CREATE_EVENT.PENDING) {
@@ -83,6 +101,7 @@ export default function*() {
   yield all([
     takeEvery(AUTHENTICATE.SUCCESS, initialize),
     takeEvery(FETCH_EVENTS.PENDING, fetchEvents),
+    takeEvery(SELECT_EVENT, eventSelection),
     takeEvery(START_FORM, startForm),
   ]);
 }

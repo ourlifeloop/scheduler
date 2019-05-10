@@ -1,9 +1,10 @@
 import {
-  OPEN_CREATION_MODAL,
+  OPEN_EVENT_MODAL,
   UPDATE_FORM,
   RESET_FORM,
   CREATE_EVENT,
   FETCH_EVENTS,
+  SELECT_EVENT,
 } from 'store/actions/calendar.actions';
 import { uniq } from 'constants/lodash';
 
@@ -19,6 +20,7 @@ const initialState = {
   isEventFormModalOpen: false,
   isFetchingEvents: false,
   isManagingEvent: false,
+  selectedEvent: null,
   form: initialForm,
   months: [],
   models: {},
@@ -26,12 +28,17 @@ const initialState = {
 
 export default function deck(state = initialState, action) {
   switch (action.type) {
-    case OPEN_CREATION_MODAL:
+    case OPEN_EVENT_MODAL:
       return { ...state, isEventFormModalOpen: true };
     case UPDATE_FORM:
       return { ...state, form: { ...state.form, ...action.form } };
     case RESET_FORM:
-      return { ...state, form: initialForm, isEventFormModalOpen: false };
+      return {
+        ...state,
+        form: initialForm,
+        isEventFormModalOpen: false,
+        selectedEvent: null,
+      };
     case CREATE_EVENT.PENDING:
       return { ...state, isManagingEvent: true };
     case CREATE_EVENT.SUCCESS:
@@ -54,6 +61,8 @@ export default function deck(state = initialState, action) {
       };
     case FETCH_EVENTS.ERROR:
       return { ...state, isFetchingEvents: false };
+    case SELECT_EVENT:
+      return { ...state, selectedEvent: action.key };
     default:
       return state;
   }

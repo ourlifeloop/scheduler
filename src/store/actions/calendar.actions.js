@@ -1,7 +1,7 @@
 import { createAsyncTypes } from 'utils/store';
 
 const ACTION_PREFIX = '@@calendar';
-export const OPEN_CREATION_MODAL = `${ACTION_PREFIX}/OPEN_CREATION_MODAL`;
+export const OPEN_EVENT_MODAL = `${ACTION_PREFIX}/OPEN_EVENT_MODAL`;
 export const START_FORM = `${ACTION_PREFIX}/START_FORM`;
 export const UPDATE_FORM = `${ACTION_PREFIX}/UPDATE_FORM`;
 export const RESET_FORM = `${ACTION_PREFIX}/RESET_FORM`;
