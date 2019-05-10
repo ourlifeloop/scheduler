@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from '@reach/router';
 import BigCalendar from 'react-big-calendar';
 
-import EventCreationModal from 'components/event-creation-modal';
+import EventFormModal from 'components/event-form-modal';
 import FlexContainer from 'primitives/flex-container';
 import Button from 'primitives/button';
 import { values } from 'constants/lodash';
@@ -15,15 +15,13 @@ import styles from './styles.module.scss';
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
-// const events = [
-//   {
-//     start: new Date(),
-//     end: new Date(moment().add(1, 'days')),
-//     title: 'Some title',
-//   },
-// ];
-
-export default function Calendar({ signout, fetchMonth, startForm, events }) {
+export default function Calendar({
+  signout,
+  fetchMonth,
+  startForm,
+  selectEvent,
+  events,
+}) {
   return (
     <>
       <div className={styles.header}>
@@ -33,9 +31,6 @@ export default function Calendar({ signout, fetchMonth, startForm, events }) {
               <h4>Discord Scheduler</h4>
             </Link>
             <FlexContainer align="center">
-              <Link className={styles.minorLink} to="/settings">
-                Settings
-              </Link>
               <Button
                 className={styles.minorLink}
                 link
@@ -55,7 +50,7 @@ export default function Calendar({ signout, fetchMonth, startForm, events }) {
             localizer={localizer}
             events={values(events)}
             style={{ height: '100%' }}
-            onSelectEvent={console.log}
+            onSelectEvent={evt => selectEvent(evt.id)}
             onNavigate={date => fetchMonth(date)}
             onSelectSlot={({ start, end }) =>
               startForm(normalizeDate(start), normalizeDate(end))
@@ -66,7 +61,7 @@ export default function Calendar({ signout, fetchMonth, startForm, events }) {
           />
         </div>
       </div>
-      <EventCreationModal />
+      <EventFormModal />
     </>
   );
 }
@@ -75,5 +70,6 @@ Calendar.propTypes = {
   signout: PropTypes.func.isRequired,
   fetchMonth: PropTypes.func.isRequired,
   startForm: PropTypes.func.isRequired,
+  selectEvent: PropTypes.func.isRequired,
   events: PropTypes.shape().isRequired,
 };

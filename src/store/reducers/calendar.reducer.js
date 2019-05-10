@@ -16,9 +16,9 @@ const initialForm = {
 };
 
 const initialState = {
-  isCreationModalOpen: false,
+  isEventFormModalOpen: false,
   isFetchingEvents: false,
-  isCreatingEvent: false,
+  isManagingEvent: false,
   form: initialForm,
   months: [],
   models: {},
@@ -27,22 +27,22 @@ const initialState = {
 export default function deck(state = initialState, action) {
   switch (action.type) {
     case OPEN_CREATION_MODAL:
-      return { ...state, isCreationModalOpen: true };
+      return { ...state, isEventFormModalOpen: true };
     case UPDATE_FORM:
       return { ...state, form: { ...state.form, ...action.form } };
     case RESET_FORM:
-      return { ...state, form: initialForm, isCreationModalOpen: false };
+      return { ...state, form: initialForm, isEventFormModalOpen: false };
     case CREATE_EVENT.PENDING:
-      return { ...state, isCreatingEvent: true };
+      return { ...state, isManagingEvent: true };
     case CREATE_EVENT.SUCCESS:
       return {
         ...state,
         models: { ...state.models, ...action.event },
-        isCreatingEvent: false,
-        isCreationModalOpen: false,
+        isManagingEvent: false,
+        isEventFormModalOpen: false,
       };
     case CREATE_EVENT.ERROR:
-      return { ...state, isCreatingEvent: false };
+      return { ...state, isManagingEvent: false };
     case FETCH_EVENTS.PENDING:
       return { ...state, isFetchingEvents: true };
     case FETCH_EVENTS.SUCCESS:

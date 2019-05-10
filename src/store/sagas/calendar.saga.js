@@ -32,8 +32,9 @@ function* fetchEvents({ date }) {
     yield put(
       createAction(FETCH_EVENTS.SUCCESS, {
         month,
-        events: mapValues(events, event => ({
+        events: mapValues(events, (event, id) => ({
           ...event,
+          id,
           created: event.created.toDate(),
           start: event.start.toDate(),
           end: event.end.toDate(),

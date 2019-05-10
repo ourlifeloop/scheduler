@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
 
-import REASONS from 'constants/reasons';
-import { map } from 'constants/lodash';
-import Button from 'primitives/button';
-import Modal from 'primitives/modal';
+import REASONS from './node_modules/constants/reasons';
+import { map } from './node_modules/constants/lodash';
+import Button from './node_modules/primitives/button';
+import Modal from './node_modules/primitives/modal';
 
 import styles from './styles.module.scss';
 
@@ -26,18 +26,18 @@ const dot = (color = '#ccc') => ({
   },
 });
 
-export default function EventCreationModal({
+export default function EventFormModal({
   updateForm,
-  cancelCreate,
+  cancelForm,
   createEvent,
-  isCreationModalOpen,
+  isEventFormModalOpen,
   form,
 }) {
   return (
     <Modal
       title="Create Event"
-      onCancel={cancelCreate}
-      isOpen={isCreationModalOpen}
+      onCancel={cancelForm}
+      isOpen={isEventFormModalOpen}
       actionButtons={[
         <Button key="create" primary onClick={createEvent}>
           Create
@@ -110,11 +110,11 @@ export default function EventCreationModal({
   );
 }
 
-EventCreationModal.propTypes = {
+EventFormModal.propTypes = {
   updateForm: PropTypes.func.isRequired,
-  cancelCreate: PropTypes.func.isRequired,
+  cancelForm: PropTypes.func.isRequired,
   createEvent: PropTypes.func.isRequired,
-  isCreationModalOpen: PropTypes.bool.isRequired,
+  isEventFormModalOpen: PropTypes.bool.isRequired,
   form: PropTypes.shape({
     start: PropTypes.instanceOf(Date),
     end: PropTypes.instanceOf(Date),

@@ -4,12 +4,12 @@ import { createStructuredSelector } from 'reselect';
 import {
   getisEventFormModalOpen,
   getCalendarForm,
-} from './node_modules/store/selectors/base.selectors';
+} from 'store/selectors/base.selectors';
 import {
   updateForm,
   cancelForm,
   createEvent,
-} from './node_modules/store/actions/calendar.actions';
+} from 'store/actions/calendar.actions';
 
 import EventFormModal from './event-form-modal';
 

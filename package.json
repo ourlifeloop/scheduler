@@ -1,5 +1,5 @@
 {
-  "name": "discord-scheduler",
+  "name": "out-of-office-notifier",
   "version": "0.1.0",
   "private": true,
   "scripts": {

@@ -24,5 +24,5 @@ export const createEvent = event => {
   return Firebase.firestore()
     .collection('events')
     .add(doc)
-    .then(ref => ({ [ref.id]: doc }));
+    .then(ref => ({ [ref.id]: { id: ref.id, ...doc } }));
 };
