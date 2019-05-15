@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Link } from '@reach/router';
 import BigCalendar from 'react-big-calendar';
 
 import EventFormModal from 'components/event-form-modal';
@@ -27,9 +26,11 @@ export default function Calendar({
       <div className={styles.header}>
         <div className="container">
           <FlexContainer justify="spaceBetween" align="center">
-            <Link className={styles.titleLink} to="/calendar">
-              <h4>Out of Office Notifier</h4>
-            </Link>
+            <img
+              className={styles.logo}
+              src="/images/logo.png"
+              alt="Lifeloop Logo"
+            />
             <FlexContainer align="center">
               <Button
                 className={styles.minorLink}

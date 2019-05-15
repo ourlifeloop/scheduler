@@ -6,20 +6,8 @@
   padding: 1rem 0;
 }
 
-.titleLink {
-  &:hover {
-    text-decoration: none;
-  }
-
-  h4 {
-    color: $light;
-    margin: 0;
-    transition: color 0.2s linear;
-
-    &:hover {
-      color: $medium-light;
-    }
-  }
+.logo {
+  height: 40px;
 }
 
 .minorLink {

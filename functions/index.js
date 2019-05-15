@@ -14,7 +14,7 @@ exports.notifyDiscord = functions.pubsub
   .timeZone('America/Chicago')
   .onRun(async () => {
     const { token, channel } = functions.config().discord;
-    const today = moment
+    const today = moment()
       .hour(12)
       .minute(0)
       .second(0)
