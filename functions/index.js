@@ -14,7 +14,7 @@ exports.notifyDiscord = functions.pubsub
   .timeZone('America/Chicago')
   .onRun(async () => {
     const { token, channel } = functions.config().discord;
-    const today = moment()
+    const today = moment
       .hour(12)
       .minute(0)
       .second(0)
@@ -44,10 +44,14 @@ exports.notifyDiscord = functions.pubsub
     });
     const formattedEvents = eventData
       .filter(({ start, end }) => {
-        console.log(today, moment(start.toDate()), moment(end.toDate()));
+        console.log(
+          today,
+          moment.utc(start.toDate()),
+          moment.utc(end.toDate()),
+        );
         return (
-          today.isSameOrAfter(start.toDate()) &&
-          today.isSameOrBefore(end.toDate())
+          today.isSameOrAfter(moment.utc(start.toDate())) &&
+          today.isSameOrBefore(moment.utc(end.toDate()))
         );
       })
       .map(({ title, reason }) => `${title} is ${REASONS[reason]}`);

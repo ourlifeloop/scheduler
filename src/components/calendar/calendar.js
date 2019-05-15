@@ -28,7 +28,7 @@ export default function Calendar({
         <div className="container">
           <FlexContainer justify="spaceBetween" align="center">
             <Link className={styles.titleLink} to="/calendar">
-              <h4>Discord Scheduler</h4>
+              <h4>Out of Office Notifier</h4>
             </Link>
             <FlexContainer align="center">
               <Button
