@@ -2,7 +2,7 @@ import {
   OPEN_EVENT_MODAL,
   UPDATE_FORM,
   RESET_FORM,
-  CREATE_EVENT,
+  MODIFY_EVENT,
   FETCH_EVENTS,
   SELECT_EVENT,
   TOGGLE_VIEWER,
@@ -42,16 +42,16 @@ export default function deck(state = initialState, action) {
         isEventFormModalOpen: false,
         selectedEvent: null,
       };
-    case CREATE_EVENT.PENDING:
+    case MODIFY_EVENT.PENDING:
       return { ...state, isManagingEvent: true };
-    case CREATE_EVENT.SUCCESS:
+    case MODIFY_EVENT.SUCCESS:
       return {
         ...state,
         models: { ...state.models, ...action.event },
         isManagingEvent: false,
         isEventFormModalOpen: false,
       };
-    case CREATE_EVENT.ERROR:
+    case MODIFY_EVENT.ERROR:
       return { ...state, isManagingEvent: false };
     case FETCH_EVENTS.PENDING:
       return { ...state, isFetchingEvents: true };
@@ -71,6 +71,7 @@ export default function deck(state = initialState, action) {
     case DELETE_EVENT.SUCCESS:
       return {
         ...state,
+        form: initialForm,
         models: omit(state.models, action.key),
         isEventFormModalOpen: false,
       };

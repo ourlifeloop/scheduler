@@ -16,7 +16,7 @@ export const getEventForMonth = monthKey =>
       return events;
     });
 
-export const modifyEvent = event => {
+export const createEvent = event => {
   const doc = {
     ...event,
     created: Firebase.firestore.FieldValue.serverTimestamp(),
@@ -27,8 +27,14 @@ export const modifyEvent = event => {
     .then(ref => ({ [ref.id]: { id: ref.id, ...doc } }));
 };
 
-export const deleteEvent = event =>
+export const editEvent = (id, event) =>
   Firebase.firestore()
     .collection('events')
-    .doc(event)
+    .doc(id)
+    .set(event, { merge: true });
+
+export const deleteEvent = id =>
+  Firebase.firestore()
+    .collection('events')
+    .doc(id)
     .delete();

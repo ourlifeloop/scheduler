@@ -12,7 +12,8 @@ import {
 } from 'store/selectors/base.selectors';
 import {
   getEventForMonth,
-  modifyEvent,
+  createEvent,
+  editEvent,
   deleteEvent as apiDeleteEvent,
 } from 'store/api/calendar.api';
 import { AUTHENTICATE } from 'store/actions/user.actions';
@@ -22,7 +23,7 @@ import {
   UPDATE_FORM,
   RESET_FORM,
   CANCEL_CREATE,
-  CREATE_EVENT,
+  MODIFY_EVENT,
   FETCH_EVENTS,
   SELECT_EVENT,
   TOGGLE_VIEWER,
@@ -94,21 +95,27 @@ function* startForm(evt) {
   );
   yield put(createAction(OPEN_EVENT_MODAL));
 
-  const { type } = yield take([CANCEL_CREATE, CREATE_EVENT.PENDING]);
-  if (type === CREATE_EVENT.PENDING) {
+  const { type } = yield take([CANCEL_CREATE, MODIFY_EVENT.PENDING]);
+  if (type === MODIFY_EVENT.PENDING) {
     try {
-      let event = yield select(getCalendarForm);
+      const calendarForm = yield select(getCalendarForm);
+      let { id, ...event } = calendarForm;
       event = {
         ...event,
         creator: uid,
         months: getMonthsInRange(event.start, event.end),
       };
 
-      const eventObj = yield call(modifyEvent, event);
-      yield put(createAction(CREATE_EVENT.SUCCESS, { event: eventObj }));
+      let eventObj = { [id]: calendarForm };
+      if (id) {
+        yield call(editEvent, id, event);
+      } else {
+        eventObj = yield call(createEvent, event);
+      }
+      yield put(createAction(MODIFY_EVENT.SUCCESS, { event: eventObj }));
     } catch (error) {
       console.error(error);
-      yield put(createAction(CREATE_EVENT.ERROR, { error }));
+      yield put(createAction(MODIFY_EVENT.ERROR, { error }));
     }
   }
 
