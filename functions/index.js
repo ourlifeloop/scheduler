@@ -44,19 +44,11 @@ exports.notifyDiscord = functions.pubsub
       eventData = [...eventData, evt.data()];
     });
     const formattedEvents = eventData
-      .filter(({ start, end }) => {
-        console.log(
-          today,
-          moment.utc(start.toDate()),
-          moment.utc(end.toDate()),
-          today.isSameOrAfter(moment.utc(start.toDate())),
-          today.isSameOrBefore(moment.utc(end.toDate())),
-        );
-        return (
+      .filter(
+        ({ start, end }) =>
           today.isSameOrAfter(moment.utc(start.toDate())) &&
-          today.isSameOrBefore(moment.utc(end.toDate()))
-        );
-      })
+          today.isSameOrBefore(moment.utc(end.toDate())),
+      )
       .map(({ title, reason }) => `${title} is ${REASONS[reason]}`);
 
     if (!formattedEvents.length) {
