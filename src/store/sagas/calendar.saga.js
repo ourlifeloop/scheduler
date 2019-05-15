@@ -10,7 +10,11 @@ import {
   getCalendarForm,
   getCalendarMonths,
 } from 'store/selectors/base.selectors';
-import { getEventForMonth, createEvent } from 'store/api/calendar.api';
+import {
+  getEventForMonth,
+  modifyEvent,
+  deleteEvent as apiDeleteEvent,
+} from 'store/api/calendar.api';
 import { AUTHENTICATE } from 'store/actions/user.actions';
 import {
   OPEN_EVENT_MODAL,
@@ -22,6 +26,7 @@ import {
   FETCH_EVENTS,
   SELECT_EVENT,
   TOGGLE_VIEWER,
+  DELETE_EVENT,
 } from 'store/actions/calendar.actions';
 
 function* fetchEvents({ date }) {
@@ -47,6 +52,16 @@ function* fetchEvents({ date }) {
   } catch (error) {
     console.error(error);
     yield put(createAction(FETCH_EVENTS.ERROR, { error }));
+  }
+}
+
+function* deleteEvent({ key }) {
+  try {
+    yield call(apiDeleteEvent, key);
+    yield put(createAction(DELETE_EVENT.SUCCESS, { key }));
+  } catch (error) {
+    console.error(error);
+    yield put(createAction(DELETE_EVENT.ERROR, { error }));
   }
 }
 
@@ -89,7 +104,7 @@ function* startForm(evt) {
         months: getMonthsInRange(event.start, event.end),
       };
 
-      const eventObj = yield call(createEvent, event);
+      const eventObj = yield call(modifyEvent, event);
       yield put(createAction(CREATE_EVENT.SUCCESS, { event: eventObj }));
     } catch (error) {
       console.error(error);
@@ -104,6 +119,7 @@ export default function*() {
   yield all([
     takeEvery(AUTHENTICATE.SUCCESS, initialize),
     takeEvery(FETCH_EVENTS.PENDING, fetchEvents),
+    takeEvery(DELETE_EVENT.PENDING, deleteEvent),
     takeEvery(SELECT_EVENT, eventSelection),
     takeEvery(START_FORM, startForm),
   ]);

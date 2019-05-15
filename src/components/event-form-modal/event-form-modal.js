@@ -35,21 +35,31 @@ const REASON_OPTIONS = map(REASONS, ({ key, title, color }) => ({
 export default function EventFormModal({
   updateForm,
   cancelForm,
-  createEvent,
+  modifyEvent,
+  deleteEvent,
   isEventFormModalOpen,
   form,
 }) {
   const action = form.id ? 'Edit' : 'Create';
+  let actionButtons = [
+    <Button key="modify" primary onClick={modifyEvent}>
+      {action}
+    </Button>,
+  ];
+  if (form.id) {
+    actionButtons = [
+      <Button key="delete" onClick={() => deleteEvent(form.id)}>
+        Delete
+      </Button>,
+      ...actionButtons,
+    ];
+  }
   return (
     <Modal
       title={`${action} Event`}
       onCancel={cancelForm}
       isOpen={isEventFormModalOpen}
-      actionButtons={[
-        <Button key="modify" primary onClick={createEvent}>
-          {action}
-        </Button>,
-      ]}
+      actionButtons={actionButtons}
     >
       <div className="row">
         <label htmlFor="reason">Reason *</label>
@@ -117,7 +127,8 @@ export default function EventFormModal({
 EventFormModal.propTypes = {
   updateForm: PropTypes.func.isRequired,
   cancelForm: PropTypes.func.isRequired,
-  createEvent: PropTypes.func.isRequired,
+  modifyEvent: PropTypes.func.isRequired,
+  deleteEvent: PropTypes.func.isRequired,
   isEventFormModalOpen: PropTypes.bool.isRequired,
   form: PropTypes.shape({
     start: PropTypes.instanceOf(Date),

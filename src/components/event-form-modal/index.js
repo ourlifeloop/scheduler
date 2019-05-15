@@ -8,7 +8,8 @@ import {
 import {
   updateForm,
   cancelForm,
-  createEvent,
+  modifyEvent,
+  deleteEvent,
 } from 'store/actions/calendar.actions';
 
 import EventFormModal from './event-form-modal';
@@ -20,5 +21,5 @@ const mapStateToProps = createStructuredSelector({
 
 export default connect(
   mapStateToProps,
-  { updateForm, cancelForm, createEvent },
+  { updateForm, cancelForm, modifyEvent, deleteEvent },
 )(EventFormModal);
