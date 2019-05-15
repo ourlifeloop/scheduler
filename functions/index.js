@@ -55,11 +55,9 @@ exports.notifyDiscord = functions.pubsub
       return;
     }
 
-    console.log(
+    await textChannel.send(
       `Today is ${today.format('dddd, MMMM Do')}!\n\n${formattedEvents.join(
         '\n',
       )}`,
     );
-
-    // await textChannel.send("Bleep Blorp, I'm a robot");
   });
