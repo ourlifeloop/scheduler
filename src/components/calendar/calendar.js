@@ -3,6 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import BigCalendar from 'react-big-calendar';
 
+import EventViewerModal from 'components/event-viewer-modal';
 import EventFormModal from 'components/event-form-modal';
 import FlexContainer from 'primitives/flex-container';
 import Button from 'primitives/button';
@@ -63,6 +64,7 @@ export default function Calendar({
         </div>
       </div>
       <EventFormModal />
+      <EventViewerModal />
     </>
   );
 }
