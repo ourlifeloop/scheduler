@@ -15,6 +15,7 @@ exports.notifyDiscord = functions.pubsub
   .onRun(async () => {
     const { token, channel } = functions.config().discord;
     const today = moment()
+      .utc()
       .hour(12)
       .minute(0)
       .second(0)
@@ -48,6 +49,8 @@ exports.notifyDiscord = functions.pubsub
           today,
           moment.utc(start.toDate()),
           moment.utc(end.toDate()),
+          today.isSameOrAfter(moment.utc(start.toDate())),
+          today.isSameOrBefore(moment.utc(end.toDate())),
         );
         return (
           today.isSameOrAfter(moment.utc(start.toDate())) &&

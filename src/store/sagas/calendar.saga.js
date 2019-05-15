@@ -21,6 +21,7 @@ import {
   CREATE_EVENT,
   FETCH_EVENTS,
   SELECT_EVENT,
+  TOGGLE_VIEWER,
 } from 'store/actions/calendar.actions';
 
 function* fetchEvents({ date }) {
@@ -64,6 +65,8 @@ function* eventSelection({ key }) {
   const { uid } = yield select(getUser);
   if (selectedEvent.creator === uid) {
     yield put(createAction(START_FORM, selectedEvent));
+  } else {
+    yield put(createAction(TOGGLE_VIEWER));
   }
 }
 

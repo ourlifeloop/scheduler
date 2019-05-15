@@ -5,6 +5,7 @@ import {
   CREATE_EVENT,
   FETCH_EVENTS,
   SELECT_EVENT,
+  TOGGLE_VIEWER,
 } from 'store/actions/calendar.actions';
 import { uniq } from 'constants/lodash';
 
@@ -18,6 +19,7 @@ const initialForm = {
 
 const initialState = {
   isEventFormModalOpen: false,
+  isViewerModalOpen: false,
   isFetchingEvents: false,
   isManagingEvent: false,
   selectedEvent: null,
@@ -63,6 +65,8 @@ export default function deck(state = initialState, action) {
       return { ...state, isFetchingEvents: false };
     case SELECT_EVENT:
       return { ...state, selectedEvent: action.key };
+    case TOGGLE_VIEWER:
+      return { ...state, isViewerModalOpen: !state.isViewerModalOpen };
     default:
       return state;
   }
