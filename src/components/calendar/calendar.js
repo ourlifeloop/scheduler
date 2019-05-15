@@ -47,6 +47,7 @@ export default function Calendar({
       <div className="container">
         <div className={styles.calendar}>
           <BigCalendar
+            popup
             selectable
             views={[BigCalendar.Views.MONTH]}
             localizer={localizer}
