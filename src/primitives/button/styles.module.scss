@@ -3,6 +3,12 @@
 .container {
   position: relative;
   margin: 0;
+
+  &:disabled,
+  &:disabled:hover {
+    background-color: $primary-light;
+    border-color: $primary-light;
+  }
 }
 
 .link {
@@ -19,6 +25,7 @@
   white-space: nowrap;
   background-color: transparent;
   border-radius: 0;
+  transition: all 0.2s linear;
 
   &:hover {
     color: $primary-dark;

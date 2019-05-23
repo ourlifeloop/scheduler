@@ -39,10 +39,11 @@ export default function EventFormModal({
   deleteEvent,
   isEventFormModalOpen,
   form,
+  isValidForm,
 }) {
   const action = form.id ? 'Edit' : 'Create';
   let actionButtons = [
-    <Button key="modify" primary onClick={modifyEvent}>
+    <Button disabled={!isValidForm} key="modify" primary onClick={modifyEvent}>
       {action}
     </Button>,
   ];
@@ -136,4 +137,5 @@ EventFormModal.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }),
+  isValidForm: PropTypes.bool.isRequired,
 };
