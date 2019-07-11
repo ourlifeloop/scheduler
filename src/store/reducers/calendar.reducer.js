@@ -14,6 +14,7 @@ const initialForm = {
   title: '',
   description: '',
   reason: '',
+  duration: 'allDay',
   start: null,
   end: null,
 };

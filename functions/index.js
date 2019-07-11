@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 const moment = require('moment');
 const Discord = require('discord.js');
 
-const REASONS = require('./reasons');
+const { REASONS, DURATIONS } = require('./constants');
 
 const client = new Discord.Client();
 admin.initializeApp();
@@ -49,7 +49,15 @@ exports.notifyDiscord = functions.pubsub
           today.isSameOrAfter(moment.utc(start.toDate())) &&
           today.isSameOrBefore(moment.utc(end.toDate())),
       )
-      .map(({ title, reason }) => `${title} is ${REASONS[reason]}`);
+      .map(({ title, reason, duration, description }) =>
+        [
+          `**${title}**`,
+          ' is ',
+          REASONS[reason],
+          ` ${DURATIONS[duration || 'allDay']}`,
+          description ? ` - *${description}*` : '',
+        ].join(''),
+      );
 
     if (!formattedEvents.length) {
       return;

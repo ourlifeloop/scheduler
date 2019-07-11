@@ -97,7 +97,7 @@ Modal.defaultProps = {
   cancelText: 'Cancel',
   footerText: undefined,
   actionButtons: undefined,
-  width: 412,
+  width: 500,
   noMargin: false,
   hideHeader: false,
 };

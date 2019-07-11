@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Modal from 'primitives/modal';
 import REASONS from 'constants/reasons';
+import DURATIONS from 'constants/durations';
 
 import styles from './styles.module.scss';
 
@@ -14,7 +15,8 @@ export default function EventViewingModal({
   return (
     <Modal title="Event" onCancel={toggleViewer} isOpen={isViewerModalOpen}>
       <p className={styles.title}>
-        {selectedEvent.title} is {(REASONS[selectedEvent.reason] || {}).title}
+        {selectedEvent.title} is {(REASONS[selectedEvent.reason] || {}).title}{' '}
+        {(DURATIONS[selectedEvent.duration] || DURATIONS.allDay).title}
       </p>
       <p className={styles.description}>
         <b>Description: </b>

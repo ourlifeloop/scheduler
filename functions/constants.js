@@ -1,4 +1,4 @@
-module.exports = {
+exports.REASONS = {
   wfh: 'working from home',
   offsite: 'meeting offsite',
   travel: 'traveling',
@@ -6,4 +6,11 @@ module.exports = {
   sick: 'sick',
   personal: 'taking a personal day',
   other: 'out today',
+};
+
+exports.DURATIONS = {
+  allDay: 'all day',
+  morning: 'in the morning',
+  afternoon: 'in the afternoon',
+  evening: 'in the evening',
 };

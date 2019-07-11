@@ -14,10 +14,11 @@ export const selectedEvent = createSelector(
 
 export const isValidForm = createSelector(
   [getCalendarForm],
-  ({ start, end, reason, title }) =>
+  ({ start, end, reason, duration, title }) =>
     !!start &&
     !!end &&
     moment(start).isSameOrBefore(end) &&
     !!reason &&
+    !!duration &&
     !!title,
 );

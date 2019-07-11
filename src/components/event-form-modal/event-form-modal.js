@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
 
 import REASONS from 'constants/reasons';
+import DURATIONS from 'constants/durations';
 import { find, map } from 'constants/lodash';
 import Button from 'primitives/button';
 import Modal from 'primitives/modal';
@@ -30,6 +31,11 @@ const REASON_OPTIONS = map(REASONS, ({ key, title, color }) => ({
   value: key,
   label: title,
   color,
+}));
+
+const DURATION_OPTIONS = map(DURATIONS, ({ key, title }) => ({
+  value: key,
+  label: title,
 }));
 
 export default function EventFormModal({
@@ -63,27 +69,39 @@ export default function EventFormModal({
       actionButtons={actionButtons}
     >
       <div className="row">
-        <label htmlFor="reason">Reason *</label>
-        <Select
-          className={styles.select}
-          classNamePrefix="react-select"
-          value={find(REASON_OPTIONS, { value: form.reason })}
-          onChange={({ value }) => updateForm({ reason: value })}
-          options={REASON_OPTIONS}
-          styles={{
-            option: (styles, { data }) => ({
-              ...styles,
-              ...dot(data.color),
-            }),
-            singleValue: (styles, { data }) => ({
-              ...styles,
-              ...dot(data.color),
-            }),
-          }}
-        />
+        <div className="one-half column">
+          <label htmlFor="reason">Reason *</label>
+          <Select
+            className={styles.select}
+            classNamePrefix="react-select"
+            value={find(REASON_OPTIONS, { value: form.reason })}
+            onChange={({ value }) => updateForm({ reason: value })}
+            options={REASON_OPTIONS}
+            styles={{
+              option: (styles, { data }) => ({
+                ...styles,
+                ...dot(data.color),
+              }),
+              singleValue: (styles, { data }) => ({
+                ...styles,
+                ...dot(data.color),
+              }),
+            }}
+          />
+        </div>
+        <div className="one-half column">
+          <label htmlFor="duration">Duration *</label>
+          <Select
+            className={styles.select}
+            classNamePrefix="react-select"
+            value={find(DURATION_OPTIONS, { value: form.duration })}
+            onChange={({ value }) => updateForm({ duration: value })}
+            options={DURATION_OPTIONS}
+          />
+        </div>
       </div>
       <div className="row">
-        <div className="one-half column">
+        <div className={classNames('one-half column', styles.datepicker)}>
           <label htmlFor="start">Start Date *</label>
           <DatePicker
             className="u-full-width"
@@ -92,9 +110,10 @@ export default function EventFormModal({
             id="start"
           />
         </div>
-        <div className="one-half column">
+        <div className={classNames('one-half column', styles.datepicker)}>
           <label htmlFor="end">End Date *</label>
           <DatePicker
+            className="u-full-width"
             onChange={end => updateForm({ end })}
             selected={form.end}
             id="end"
