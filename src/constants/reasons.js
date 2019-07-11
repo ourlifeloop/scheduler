@@ -5,7 +5,7 @@ export default {
   vacation: { key: 'vacation', title: 'on vacation', color: '#9C27B0' },
   sick: { key: 'sick', title: 'sick', color: '#00BCD4' },
   personal: {
-    ke: 'personal',
+    key: 'personal',
     title: 'taking a personal day',
     color: '#FF9800',
   },
