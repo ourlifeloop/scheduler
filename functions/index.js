@@ -51,11 +51,11 @@ exports.notifyDiscord = functions.pubsub
       )
       .map(({ title, reason, duration, description }) =>
         [
-          `**${title}**`,
+          `**${title.trim()}**`,
           ' is ',
           REASONS[reason],
           ` ${DURATIONS[duration || 'allDay']}`,
-          description ? ` - *${description}*` : '',
+          description ? ` - *${description.trim()}*` : '',
         ].join(''),
       );
 
