@@ -23,12 +23,23 @@
   text-decoration: underline;
   text-transform: initial;
   white-space: nowrap;
-  background-color: transparent;
+  background-color: transparent !important;
   border-radius: 0;
-  transition: all 0.2s linear;
+  transition: all 0.2s;
 
   &:hover {
     color: $primary-dark;
+  }
+
+  &--primary {
+    background-color: $primary !important;
+    border-color: $primary !important;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: $primary-dark !important;
+      border-color: $primary-dark !important;
+    }
   }
 }
 

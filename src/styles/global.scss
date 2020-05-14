@@ -1,2 +1,12 @@
 @import 'lib/normalize.css';
 @import 'lib/skeleton.css';
+@import 'theme';
+
+a {
+  color: $primary-light !important;
+  transition: all 0.2s linear;
+
+  &:hover {
+    color: $primary !important;
+  }
+}

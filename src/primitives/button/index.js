@@ -15,8 +15,9 @@ export default function Button({
   ...rest
 }) {
   const linkClass = classNames(className, styles.container, {
-    [styles.link]: link,
+    [styles['link--primary']]: primary,
     'button-primary': primary,
+    [styles.link]: link,
   });
 
   let loadingSpinner = null;
