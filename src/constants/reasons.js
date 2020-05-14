@@ -1,4 +1,5 @@
 export default {
+  wio: { key: 'wio', title: 'working in office', color: '#040404' },
   wfh: { key: 'wfh', title: 'working from home', color: '#F44336' },
   offsite: { key: 'offsite', title: 'meeting offsite', color: '#2979FF' },
   travel: { key: 'travel', title: 'traveling', color: '#009688' },
