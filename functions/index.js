@@ -10,7 +10,7 @@ admin.initializeApp();
 const firestore = admin.firestore();
 
 exports.notifyDiscord = functions.pubsub
-  .schedule('every day 09:00')
+  .schedule('every day 08:00')
   .timeZone('America/Chicago')
   .onRun(async () => {
     const { token, channel } = functions.config().discord;
