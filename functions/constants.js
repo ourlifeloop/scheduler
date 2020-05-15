@@ -1,5 +1,5 @@
 exports.REASONS = {
-  wio: 'working in office'
+  wio: 'working in office',
   wfh: 'working from home',
   offsite: 'meeting offsite',
   travel: 'traveling',
