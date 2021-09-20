@@ -24,12 +24,14 @@ const DEFAULT_STATE = {
 };
 
 export const getOnCallState = async () => {
-  const docRef = await getDoc(getFirestore(), 'state', 'on-call');
+  const docRef = await getDoc(
+    doc(collection(getFirestore(), 'state'), 'on-call'),
+  );
   return docRef.exists() ? docRef.data() : DEFAULT_STATE;
 };
 
 const updateOnCallState = state =>
-  setDoc(doc(collection(getFirestore, 'state'), 'on-call'), state);
+  setDoc(doc(collection(getFirestore(), 'state'), 'on-call'), state);
 
 export const createMember = async (currentState, group, memberName) => {
   const newState = {
