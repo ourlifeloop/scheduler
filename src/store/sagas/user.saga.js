@@ -1,9 +1,6 @@
 import { all, call, put, take, fork, select } from 'redux-saga/effects';
 import { push } from 'redux-first-history';
-import Firebase from 'firebase/app';
-import 'firebase/functions';
-import 'firebase/firestore';
-import 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 
 import { createAction } from 'utils/store';
 import { getPathname, getLoginForm } from 'store/selectors/base.selectors';
@@ -20,7 +17,7 @@ import {
   passwordReset,
 } from 'store/api/user.api';
 
-Firebase.initializeApp({
+initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_DATABASE_URL,

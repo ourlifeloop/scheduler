@@ -1,8 +1,15 @@
-import Firebase from 'firebase/app';
+import {
+  getAuth,
+  signOut,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
 
 export const getCurrentUser = () =>
   new Promise(resolve => {
-    Firebase.auth().onAuthStateChanged(user => {
+    onAuthStateChanged(getAuth(), user => {
       if (!(user || {}).uid) {
         return resolve(null);
       }
@@ -20,25 +27,27 @@ export const signup = ({ email, password, confirm, displayName }) => {
   if (!displayName) {
     throw new Error('Full name must be provided');
   }
-  return Firebase.auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(response =>
-      response.user.updateProfile({ displayName }).then(() => response),
-    );
+  return createUserWithEmailAndPassword(
+    getAuth(),
+    email,
+    password,
+  ).then(response =>
+    response.user.updateProfile({ displayName }).then(() => response),
+  );
 };
 
 export const login = ({ email, password }) => {
   if (!email || !password) {
     throw new Error('Email and password are required.');
   }
-  return Firebase.auth().signInWithEmailAndPassword(email, password);
+  return signInWithEmailAndPassword(getAuth(), email, password);
 };
 
-export const signout = () => Firebase.auth().signOut();
+export const signout = () => signOut(getAuth());
 
 export const passwordReset = ({ email }) => {
   if (!email) {
     throw new Error('Email is required.');
   }
-  return Firebase.auth().sendPasswordResetEmail(email);
+  return sendPasswordResetEmail(getAuth(), email);
 };
