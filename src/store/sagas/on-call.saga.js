@@ -1,10 +1,17 @@
-import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 
 import { createAction } from 'utils/store';
 
-import { FETCH_ON_CALL_STATE } from 'store/actions/on-call.actions';
+import {
+  FETCH_ON_CALL_STATE,
+  CREATE_MEMBER,
+} from 'store/actions/on-call.actions';
 import { AUTHENTICATE } from 'store/actions/user.actions';
-import { getOnCallState } from 'store/api/on-call.api';
+import {
+  fetchOnCallState,
+  createMember as createMemberAPI,
+} from 'store/api/on-call.api';
+import { getOnCallState } from 'store/selectors/base.selectors';
 
 function* initialize() {
   yield put(createAction(FETCH_ON_CALL_STATE.PENDING));
@@ -12,7 +19,7 @@ function* initialize() {
 
 function* fetchState() {
   try {
-    const state = yield call(getOnCallState);
+    const state = yield call(fetchOnCallState);
     yield put(createAction(FETCH_ON_CALL_STATE.SUCCESS, { state }));
   } catch (error) {
     console.error(error);
@@ -20,9 +27,20 @@ function* fetchState() {
   }
 }
 
+function* createMember({ member, group }) {
+  const state = yield select(getOnCallState);
+  try {
+    const newState = yield call(createMemberAPI, state, group, member);
+    yield put(createAction(CREATE_MEMBER.SUCCESS, { state: newState }));
+  } catch (error) {
+    yield put(createAction(CREATE_MEMBER.ERROR, { error }));
+  }
+}
+
 export default function* CalndarSaga() {
   yield all([
     takeEvery(AUTHENTICATE.SUCCESS, initialize),
     takeEvery(FETCH_ON_CALL_STATE.PENDING, fetchState),
+    takeEvery(CREATE_MEMBER.PENDING, createMember),
   ]);
 }

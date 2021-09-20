@@ -23,7 +23,7 @@ const DEFAULT_STATE = {
   },
 };
 
-export const getOnCallState = async () => {
+export const fetchOnCallState = async () => {
   const docRef = await getDoc(
     doc(collection(getFirestore(), 'state'), 'on-call'),
   );

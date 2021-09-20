@@ -1,4 +1,7 @@
-import { FETCH_ON_CALL_STATE } from 'store/actions/on-call.actions';
+import {
+  FETCH_ON_CALL_STATE,
+  CREATE_MEMBER,
+} from 'store/actions/on-call.actions';
 
 const initialState = {
   isFetching: true,
@@ -10,6 +13,7 @@ export default function deck(state = initialState, action) {
     case FETCH_ON_CALL_STATE.PENDING:
       return { ...state, isFetching: true };
     case FETCH_ON_CALL_STATE.SUCCESS:
+    case CREATE_MEMBER.SUCCESS:
       return {
         ...state,
         isFetching: false,
