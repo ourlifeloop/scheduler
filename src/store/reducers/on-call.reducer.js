@@ -1,7 +1,7 @@
 import { FETCH_ON_CALL_STATE } from 'store/actions/on-call.actions';
 
 const initialState = {
-  isFetching: false,
+  isFetching: true,
   state: undefined,
 };
 
