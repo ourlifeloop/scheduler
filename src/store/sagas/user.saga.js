@@ -26,9 +26,14 @@ initializeApp({
   messagingSenderId: process.env.REACT_APP_SENDER_ID,
 });
 
+const UNAUTHENTICATED_ROUTES = ['/', '/forgot', '/signup'];
+
 function* onLogin(user) {
   yield put(createAction(AUTHENTICATE.SUCCESS, { user }));
-  yield put(push(user ? '/calendar' : '/'));
+  const pathname = yield select(getPathname);
+  if (user && UNAUTHENTICATED_ROUTES.includes(pathname)) {
+    yield put(push('/calendar'));
+  }
 }
 
 function* loginFlow() {
