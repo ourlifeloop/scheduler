@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FlexContainer from 'primitives/flex-container';
+import { ChevronRight, X } from 'constants/icons';
 import Button from 'primitives/button';
 import Modal from 'primitives/modal';
 
@@ -12,12 +13,11 @@ export default function OnCallGroup({
   group,
   onCallState,
   createMember,
+  deleteMember,
 }) {
   const [memberForm, setMemberForm] = useState();
   const members = onCallState[group];
-  const current = onCallState.current[group];
-
-  console.log(members, current);
+  const current = onCallState.current[group] || members[0];
 
   return (
     <>
@@ -25,7 +25,40 @@ export default function OnCallGroup({
         <FlexContainer justify="center">
           <h2>{title}</h2>
         </FlexContainer>
-        <FlexContainer justify="center">
+        <div>
+          {members.map(member => {
+            const isCurrent = member === current;
+            return (
+              <FlexContainer
+                key={member}
+                align="center"
+                className={styles.memberRow}
+              >
+                {isCurrent ? (
+                  <ChevronRight size={20} />
+                ) : (
+                  <div className={styles.iconSpacer} />
+                )}
+                <FlexContainer
+                  flex="1"
+                  direction="column"
+                  className={styles.member}
+                >
+                  <div className={styles.memberName}>{member}</div>
+                  <div className={styles.nextDate}>
+                    {isCurrent ? 'Current' : null}
+                  </div>
+                </FlexContainer>
+                <X
+                  size={20}
+                  className={styles.deleteBtn}
+                  onClick={() => deleteMember(group, member)}
+                />
+              </FlexContainer>
+            );
+          })}
+        </div>
+        <FlexContainer justify="center" className={styles.btnContainer}>
           <Button onClick={() => setMemberForm('')}>Add Member</Button>
         </FlexContainer>
       </div>
@@ -69,4 +102,5 @@ OnCallGroup.propTypes = {
     current: PropTypes.shape().isRequired,
   }).isRequired,
   createMember: PropTypes.func.isRequired,
+  deleteMember: PropTypes.func.isRequired,
 };

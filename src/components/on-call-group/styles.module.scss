@@ -1,3 +1,49 @@
+@import '~styles/theme';
+
 .form {
   margin-bottom: 0;
+}
+
+.btnContainer {
+  margin-top: 2rem;
+}
+
+.memberRow {
+  border-bottom: 1px solid $medium-light;
+  padding: 1rem 0;
+
+  &:hover .deleteBtn {
+    opacity: 1;
+  }
+
+  &:first-of-type {
+    border-top: 1px solid $medium-light;
+  }
+}
+
+.member {
+  margin: 0 0.5rem;
+}
+
+.memberName {
+  font-size: 1.1rem;
+}
+
+.nextDate {
+  color: $primary;
+  font-size: 0.9rem;
+}
+
+$size: 20px;
+.iconSpacer {
+  height: $size;
+  width: $size;
+}
+
+.deleteBtn {
+  color: red;
+  cursor: pointer;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.2s;
 }
