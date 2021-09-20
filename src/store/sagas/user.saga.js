@@ -83,6 +83,6 @@ function* sessionFlow() {
   }
 }
 
-export default function*() {
+export default function* UserSaga() {
   yield all([call(sessionFlow)]);
 }

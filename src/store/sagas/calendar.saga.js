@@ -122,7 +122,7 @@ function* startForm(evt) {
   yield put(createAction(RESET_FORM));
 }
 
-export default function*() {
+export default function* CalndarSaga() {
   yield all([
     takeEvery(AUTHENTICATE.SUCCESS, initialize),
     takeEvery(FETCH_EVENTS.PENDING, fetchEvents),

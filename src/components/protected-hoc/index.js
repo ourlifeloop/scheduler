@@ -10,7 +10,7 @@ import {
 } from 'store/selectors/base.selectors';
 import { usePrevious } from 'utils/effects';
 
-export default Wrapped => {
+export default function Wrapper(Wrapped) {
   function ProtectedHOC({ isLoggedIn, isInitialized, toHome, ...props }) {
     const prevIsLoggedIn = usePrevious(isLoggedIn);
     const prevIsInitialized = usePrevious(isInitialized);
@@ -42,8 +42,5 @@ export default Wrapped => {
     toHome: () => dispatch(push('/')),
   });
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ProtectedHOC);
-};
+  return connect(mapStateToProps, mapDispatchToProps)(ProtectedHOC);
+}
