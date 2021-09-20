@@ -95,7 +95,11 @@ function* startForm(evt) {
   );
   yield put(createAction(OPEN_EVENT_MODAL));
 
-  const { type } = yield take([CANCEL_CREATE, MODIFY_EVENT.PENDING]);
+  const { type } = yield take([
+    CANCEL_CREATE,
+    DELETE_EVENT.PENDING,
+    MODIFY_EVENT.PENDING,
+  ]);
   if (type === MODIFY_EVENT.PENDING) {
     try {
       const calendarForm = yield select(getCalendarForm);
