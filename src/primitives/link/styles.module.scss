@@ -1,0 +1,18 @@
+@import '~styles/theme';
+
+.link {
+  color: $primary-light;
+  transition: all 0.2s linear;
+
+  &:hover {
+    color: $primary;
+  }
+
+  &--dark {
+    color: $light;
+
+    &:hover {
+      color: $medium-light;
+    }
+  }
+}

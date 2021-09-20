@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from '@reach/router';
 
 import AuthenticationWrapper from 'components/authentication-wrapper';
+import Link from 'primitives/link';
 
 export default function Signup({ updateLoginForm, loginForm }) {
   return (

@@ -10,7 +10,7 @@
   height: 40px;
 }
 
-.minorLink {
+.headerLink {
   color: $light;
   font-size: 1.2rem;
   margin-left: 2rem;
@@ -19,5 +19,9 @@
 
   &:hover {
     color: $medium-light;
+  }
+
+  &--active {
+    text-decoration: underline;
   }
 }
