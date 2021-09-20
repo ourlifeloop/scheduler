@@ -101,7 +101,7 @@ export default function EventFormModal({
         </div>
       </div>
       <div className="row">
-        <div className={classNames('one-half column', styles.datepicker)}>
+        <div className="one-half column">
           <label htmlFor="start">Start Date *</label>
           <DatePicker
             className="u-full-width"
@@ -110,7 +110,7 @@ export default function EventFormModal({
             id="start"
           />
         </div>
-        <div className={classNames('one-half column', styles.datepicker)}>
+        <div className="one-half column">
           <label htmlFor="end">End Date *</label>
           <DatePicker
             className="u-full-width"

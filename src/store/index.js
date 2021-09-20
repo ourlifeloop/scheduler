@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { createBrowserHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
 
-import reducers from './reducers';
+import * as reducers from './reducers';
 import initSagas from './sagas';
 
 const {
@@ -17,7 +17,7 @@ const {
 
 const sagaMiddleware = createSagaMiddleware();
 
-export default () => {
+export default function store() {
   const store = createStore(
     combineReducers({
       router: routerReducer,
@@ -28,4 +28,4 @@ export default () => {
   const history = reachify(createReduxHistory(store));
   initSagas(sagaMiddleware);
   return { store, history };
-};
+}

@@ -1,6 +1,7 @@
 .textarea {
   height: 100px;
   resize: none;
+  margin-bottom: 0;
 }
 
 .select {
@@ -11,12 +12,5 @@
   input {
     height: initial !important;
     margin: 0;
-  }
-}
-
-.datepicker {
-  :global(.react-datepicker-wrapper),
-  :global(.react-datepicker__input-container) {
-    width: 100%;
   }
 }

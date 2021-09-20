@@ -1,3 +1,4 @@
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function validAccount(userEmail){
@@ -11,6 +12,9 @@ service cloud.firestore {
     match /events/{eventId} {
       allow read, create: if validAuth(request.auth);
       allow update, delete: if validAuth(request.auth) && resource.data.creator == request.auth.uid;
+    }
+    match /state/on-call {
+      allow read, write: if validAuth(request.auth);
     }
     match /{document=**} {
       allow read, write: if false;

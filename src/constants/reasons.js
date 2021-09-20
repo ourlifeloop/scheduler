@@ -1,4 +1,4 @@
-export default {
+const REASONS = {
   wio: { key: 'wio', title: 'working in office', color: '#040404' },
   wfh: { key: 'wfh', title: 'working from home', color: '#F44336' },
   offsite: { key: 'offsite', title: 'meeting offsite', color: '#2979FF' },
@@ -12,3 +12,5 @@ export default {
   },
   other: { key: 'other', title: 'out today', color: '#B1BFD4' },
 };
+
+export default REASONS;

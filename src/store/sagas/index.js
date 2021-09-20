@@ -1,7 +1,9 @@
-import user from './user.saga';
 import calendar from './calendar.saga';
+import onCall from './on-call.saga';
+import user from './user.saga';
 
-const sagas = [user, calendar];
+const sagas = [calendar, onCall, user];
 
-export default sagaMiddleware =>
+export default function sagaRunnr(sagaMiddleware) {
   sagas.forEach(sagaMiddleware.run.bind(sagaMiddleware));
+}

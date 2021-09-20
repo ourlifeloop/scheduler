@@ -95,7 +95,11 @@ function* startForm(evt) {
   );
   yield put(createAction(OPEN_EVENT_MODAL));
 
-  const { type } = yield take([CANCEL_CREATE, MODIFY_EVENT.PENDING]);
+  const { type } = yield take([
+    CANCEL_CREATE,
+    DELETE_EVENT.PENDING,
+    MODIFY_EVENT.PENDING,
+  ]);
   if (type === MODIFY_EVENT.PENDING) {
     try {
       const calendarForm = yield select(getCalendarForm);
@@ -122,7 +126,7 @@ function* startForm(evt) {
   yield put(createAction(RESET_FORM));
 }
 
-export default function*() {
+export default function* CalndarSaga() {
   yield all([
     takeEvery(AUTHENTICATE.SUCCESS, initialize),
     takeEvery(FETCH_EVENTS.PENDING, fetchEvents),
