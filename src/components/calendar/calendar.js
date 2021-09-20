@@ -60,7 +60,14 @@ export default function Calendar({
             onSelectEvent={evt => selectEvent(evt.id)}
             onNavigate={date => fetchMonth(date)}
             onSelectSlot={({ start, end }) =>
-              startForm(normalizeDate(start), normalizeDate(end))
+              startForm(
+                normalizeDate(start),
+                normalizeDate(
+                  moment(end)
+                    .subtract(1, 'day')
+                    .toDate(),
+                ),
+              )
             }
             eventPropGetter={event => ({
               style: { backgroundColor: REASONS[event.reason].color },
