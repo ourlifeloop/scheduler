@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 import FlexContainer from 'primitives/flex-container';
 import { ChevronRight, X } from 'constants/icons';
@@ -7,6 +8,30 @@ import Button from 'primitives/button';
 import Modal from 'primitives/modal';
 
 import styles from './styles.module.scss';
+
+const SUNDAY = 0;
+const SATURDAY = 6;
+const addBusinessDays = numDaysToAdd => {
+  let daysRemaining = numDaysToAdd;
+  const newDate = moment();
+
+  while (daysRemaining > 0) {
+    newDate.add(1, 'days');
+    if (newDate.day() !== SUNDAY && newDate.day() !== SATURDAY) {
+      daysRemaining--;
+    }
+  }
+
+  return newDate;
+};
+
+const getNextDate = (numMembers, onCallIndex, currentIndex) => {
+  let offset = currentIndex - onCallIndex;
+  if (offset <= 0) {
+    offset = numMembers + offset;
+  }
+  return addBusinessDays(offset).format('M/D/YYYY');
+};
 
 export default function OnCallGroup({
   title,
@@ -16,8 +41,23 @@ export default function OnCallGroup({
   deleteMember,
 }) {
   const [memberForm, setMemberForm] = useState();
-  const members = onCallState[group];
-  const current = onCallState.current[group] || members[0];
+
+  const memberData = useMemo(() => {
+    const members = onCallState[group];
+    const current = onCallState.current[group] || members[0];
+    const onCallIndex = members.indexOf(current);
+    return members.map((member, i) => {
+      const isCurrent = member === current;
+      return {
+        key: `${member}-${i}`,
+        name: member,
+        isCurrent,
+        metaText: isCurrent
+          ? 'Current'
+          : `Next: ${getNextDate(members, onCallIndex, i)}`,
+      };
+    });
+  }, [onCallState, group]);
 
   return (
     <>
@@ -26,37 +66,37 @@ export default function OnCallGroup({
           <h2>{title}</h2>
         </FlexContainer>
         <div>
-          {members.map(member => {
-            const isCurrent = member === current;
-            return (
+          {!memberData.length && (
+            <FlexContainer justify="center">
+              <div className={styles.nextDate}>No Members</div>
+            </FlexContainer>
+          )}
+          {memberData.map(({ key, name, isCurrent, metaText }) => (
+            <FlexContainer
+              key={key}
+              align="center"
+              className={styles.memberRow}
+            >
+              {isCurrent ? (
+                <ChevronRight className={styles.currentIcon} size={20} />
+              ) : (
+                <div className={styles.iconSpacer} />
+              )}
               <FlexContainer
-                key={member}
-                align="center"
-                className={styles.memberRow}
+                flex="1"
+                direction="column"
+                className={styles.member}
               >
-                {isCurrent ? (
-                  <ChevronRight size={20} />
-                ) : (
-                  <div className={styles.iconSpacer} />
-                )}
-                <FlexContainer
-                  flex="1"
-                  direction="column"
-                  className={styles.member}
-                >
-                  <div className={styles.memberName}>{member}</div>
-                  <div className={styles.nextDate}>
-                    {isCurrent ? 'Current' : null}
-                  </div>
-                </FlexContainer>
-                <X
-                  size={20}
-                  className={styles.deleteBtn}
-                  onClick={() => deleteMember(group, member)}
-                />
+                <div className={styles.memberName}>{name}</div>
+                <div className={styles.nextDate}>{metaText}</div>
               </FlexContainer>
-            );
-          })}
+              <X
+                size={20}
+                className={styles.deleteBtn}
+                onClick={() => deleteMember(group, name)}
+              />
+            </FlexContainer>
+          ))}
         </div>
         <FlexContainer justify="center" className={styles.btnContainer}>
           <Button onClick={() => setMemberForm('')}>Add Member</Button>
