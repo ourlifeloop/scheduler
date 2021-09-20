@@ -31,7 +31,7 @@ export default function Modal({
         justify="spaceBetween"
         className={classNames(styles.section, styles.header)}
       >
-        <h4 className={styles.title}>{title}</h4>
+        <h2 className={styles.title}>{title}</h2>
         <X className={styles.close} onClick={onCancel} size={30} />
       </FlexContainer>
     );
