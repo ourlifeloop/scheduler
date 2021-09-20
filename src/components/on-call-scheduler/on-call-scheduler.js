@@ -22,9 +22,9 @@ export default function OnCallScheduler({ isFetching }) {
   return (
     <div className="container">
       <div className={classNames('row', styles.container)}>
-        <OnCallGroup title="Support" group={ON_CALL_GROUP.SUPPORT} />
         <OnCallGroup title="Developer" group={ON_CALL_GROUP.DEVELOPER} />
         <OnCallGroup title="QA" group={ON_CALL_GROUP.QA} />
+        <OnCallGroup title="Support" group={ON_CALL_GROUP.SUPPORT} />
       </div>
     </div>
   );

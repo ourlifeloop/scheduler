@@ -54,7 +54,7 @@ export default function OnCallGroup({
         isCurrent,
         metaText: isCurrent
           ? 'Current'
-          : `Next: ${getNextDate(members, onCallIndex, i)}`,
+          : `Next: ${getNextDate(members.length, onCallIndex, i)}`,
       };
     });
   }, [onCallState, group]);
