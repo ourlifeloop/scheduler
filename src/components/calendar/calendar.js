@@ -1,7 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import BigCalendar from 'react-big-calendar';
+import {
+  Calendar as BigCalendar,
+  momentLocalizer,
+  Views,
+} from 'react-big-calendar';
 
 import EventViewerModal from 'components/event-viewer-modal';
 import EventFormModal from 'components/event-form-modal';
@@ -13,7 +17,7 @@ import REASONS from 'constants/reasons';
 
 import styles from './styles.module.scss';
 
-const localizer = BigCalendar.momentLocalizer(moment);
+const localizer = momentLocalizer(moment);
 
 export default function Calendar({
   signout,
@@ -49,7 +53,7 @@ export default function Calendar({
           <BigCalendar
             popup
             selectable
-            views={[BigCalendar.Views.MONTH]}
+            views={[Views.MONTH]}
             localizer={localizer}
             events={values(events)}
             style={{ height: '100%' }}
