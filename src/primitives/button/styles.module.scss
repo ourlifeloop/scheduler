@@ -6,12 +6,12 @@
 
   &:disabled,
   &:disabled:hover {
-    background-color: $primary-light;
-    border-color: $primary-light;
+    background-color: gray;
+    border-color: gray;
   }
 }
 
-.link {
+button.link {
   border: 0;
   height: auto;
   padding: 0;
@@ -23,7 +23,7 @@
   text-decoration: underline;
   text-transform: initial;
   white-space: nowrap;
-  background-color: transparent !important;
+  background-color: transparent;
   border-radius: 0;
   transition: all 0.2s;
 
@@ -32,13 +32,14 @@
   }
 
   &--primary {
-    background-color: $primary !important;
-    border-color: $primary !important;
+    color: $light;
+    background-color: $primary;
+    border-color: $primary;
     transition: all 0.2s;
 
     &:hover {
-      background-color: $primary-dark !important;
-      border-color: $primary-dark !important;
+      background-color: $primary-dark;
+      border-color: $primary-dark;
     }
   }
 }

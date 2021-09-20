@@ -5,7 +5,14 @@ import FlexContainer from 'primitives/flex-container';
 import Button from 'primitives/button';
 import Modal from 'primitives/modal';
 
-export default function OnCallGroup({ title, group, onCallState }) {
+import styles from './styles.module.scss';
+
+export default function OnCallGroup({
+  title,
+  group,
+  onCallState,
+  createMember,
+}) {
   const [memberForm, setMemberForm] = useState();
   const members = onCallState[group];
   const current = onCallState.current[group];
@@ -31,13 +38,16 @@ export default function OnCallGroup({ title, group, onCallState }) {
             primary
             key="create"
             disabled={!memberForm}
-            onClick={() => {}}
+            onClick={() => {
+              createMember(group, memberForm);
+              setMemberForm();
+            }}
           >
             Create
           </Button>,
         ]}
       >
-        <form>
+        <form className={styles.form}>
           <label htmlFor="name">Full Name</label>
           <input
             type="text"
@@ -58,4 +68,5 @@ OnCallGroup.propTypes = {
   onCallState: PropTypes.shape({
     current: PropTypes.shape().isRequired,
   }).isRequired,
+  createMember: PropTypes.func.isRequired,
 };
