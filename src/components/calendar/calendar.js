@@ -9,8 +9,6 @@ import {
 
 import EventViewerModal from 'components/event-viewer-modal';
 import EventFormModal from 'components/event-form-modal';
-import FlexContainer from 'primitives/flex-container';
-import Button from 'primitives/button';
 import { values } from 'constants/lodash';
 import { normalizeDate } from 'utils/time';
 import REASONS from 'constants/reasons';
@@ -20,7 +18,6 @@ import styles from './styles.module.scss';
 const localizer = momentLocalizer(moment);
 
 export default function Calendar({
-  signout,
   fetchMonth,
   startForm,
   selectEvent,
@@ -28,26 +25,6 @@ export default function Calendar({
 }) {
   return (
     <>
-      <div className={styles.header}>
-        <div className="container">
-          <FlexContainer justify="spaceBetween" align="center">
-            <img
-              className={styles.logo}
-              src="/images/logo.png"
-              alt="Lifeloop Logo"
-            />
-            <FlexContainer align="center">
-              <Button
-                className={styles.minorLink}
-                link
-                onClick={() => signout()}
-              >
-                Sign Out
-              </Button>
-            </FlexContainer>
-          </FlexContainer>
-        </div>
-      </div>
       <div className="container">
         <div className={styles.calendar}>
           <BigCalendar
@@ -82,7 +59,6 @@ export default function Calendar({
 }
 
 Calendar.propTypes = {
-  signout: PropTypes.func.isRequired,
   fetchMonth: PropTypes.func.isRequired,
   startForm: PropTypes.func.isRequired,
   selectEvent: PropTypes.func.isRequired,

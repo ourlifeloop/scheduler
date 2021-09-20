@@ -1,0 +1,23 @@
+@import '~styles/theme';
+
+.header {
+  background-color: $primary;
+  height: 40px;
+  padding: 1rem 0;
+}
+
+.logo {
+  height: 40px;
+}
+
+.minorLink {
+  color: $light;
+  font-size: 1.2rem;
+  margin-left: 2rem;
+  text-decoration: none;
+  transition: color 0.2s linear;
+
+  &:hover {
+    color: $medium-light;
+  }
+}
