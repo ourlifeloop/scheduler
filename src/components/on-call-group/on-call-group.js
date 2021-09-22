@@ -3,34 +3,31 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import FlexContainer from 'primitives/flex-container';
+import { ON_CALL_GROUP } from 'store/api/on-call.api';
 import { ChevronRight, X } from 'constants/icons';
+import { addBusinessDays } from 'utils/time';
 import Button from 'primitives/button';
 import Modal from 'primitives/modal';
 
 import styles from './styles.module.scss';
 
-const SUNDAY = 0;
-const SATURDAY = 6;
-const addBusinessDays = numDaysToAdd => {
-  let daysRemaining = numDaysToAdd;
-  const newDate = moment();
-
-  while (daysRemaining > 0) {
-    newDate.add(1, 'days');
-    if (newDate.day() !== SUNDAY && newDate.day() !== SATURDAY) {
-      daysRemaining--;
-    }
-  }
-
-  return newDate;
-};
-
-const getNextDate = (numMembers, onCallIndex, currentIndex) => {
+const MONDAY = 1;
+const getNextDate = (
+  numMembers,
+  onCallIndex,
+  currentIndex,
+  weeklyRotation = false,
+) => {
   let offset = currentIndex - onCallIndex;
   if (offset <= 0) {
     offset = numMembers + offset;
   }
-  return addBusinessDays(offset).format('M/D/YYYY');
+  return (weeklyRotation
+    ? moment()
+        .day(MONDAY)
+        .add(offset, 'weeks')
+    : addBusinessDays(offset)
+  ).format('M/D/YYYY');
 };
 
 export default function OnCallGroup({
@@ -54,7 +51,12 @@ export default function OnCallGroup({
         isCurrent,
         metaText: isCurrent
           ? 'Current'
-          : `Next: ${getNextDate(members.length, onCallIndex, i)}`,
+          : `Next: ${getNextDate(
+              members.length,
+              onCallIndex,
+              i,
+              group === ON_CALL_GROUP.SUPPORT,
+            )}`,
       };
     });
   }, [onCallState, group]);

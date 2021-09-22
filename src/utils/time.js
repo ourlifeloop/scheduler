@@ -24,3 +24,19 @@ export const getMonthsInRange = (start, end) => {
   }
   return months;
 };
+
+const SUNDAY = 0;
+const SATURDAY = 6;
+export const addBusinessDays = numDaysToAdd => {
+  let daysRemaining = numDaysToAdd;
+  const newDate = moment();
+
+  while (daysRemaining > 0) {
+    newDate.add(1, 'days');
+    if (newDate.day() !== SUNDAY && newDate.day() !== SATURDAY) {
+      daysRemaining--;
+    }
+  }
+
+  return newDate;
+};

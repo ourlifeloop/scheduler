@@ -5,6 +5,9 @@ const Discord = require('discord.js');
 
 const { REASONS, DURATIONS } = require('./constants');
 const SECTION_SEPARATOR = '\n---------------------------------------\n';
+const SATURDAY = 6;
+const SUNDAY = 0;
+const MONDAY = 1;
 
 const client = new Discord.Client();
 admin.initializeApp();
@@ -77,7 +80,8 @@ exports.notifyDiscord = functions.pubsub
     }
 
     /* On Call */
-    if (onCallDoc.exists) {
+    const isWeekend = today.day() === SATURDAY || today.day() === SUNDAY;
+    if (onCallDoc.exists && !isWeekend) {
       let current = { developer: null, qa: null, support: null };
       const onCallState = onCallDoc.data();
       if (onCallState.developer.length || onCallState.qa.length) {
@@ -92,8 +96,12 @@ exports.notifyDiscord = functions.pubsub
       }
 
       if (onCallState.support.length) {
-        const nextSupport = nextOnCall(onCallState, 'support');
-        current = { ...current, support: nextSupport };
+        let support = onCallState.current.support;
+        // Loop weekly on Monday
+        if (!support || today.day() === MONDAY) {
+          support = nextOnCall(onCallState, 'support');
+          current = { ...current, support };
+        }
         sections.push(`*Support*\n**${nextSupport}** is on-call today`);
       }
 
