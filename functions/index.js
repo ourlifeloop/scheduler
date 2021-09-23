@@ -102,7 +102,7 @@ exports.notifyDiscord = functions.pubsub
           support = nextOnCall(onCallState, 'support');
           current = { ...current, support };
         }
-        sections.push(`*Support*\n**${nextSupport}** is on-call today`);
+        sections.push(`*Support*\n**${support}** is on-call today`);
       }
 
       await firestore
