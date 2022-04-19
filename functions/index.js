@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const moment = require('moment');
+const axios = require('axios');
 const Discord = require('discord.js');
 
 const { REASONS, DURATIONS } = require('./constants');
@@ -9,7 +10,7 @@ const SATURDAY = 6;
 const SUNDAY = 0;
 const MONDAY = 1;
 
-const client = new Discord.Client();
+const discordClient = new Discord.Client();
 admin.initializeApp();
 const firestore = admin.firestore();
 
@@ -18,11 +19,61 @@ const nextOnCall = (state, group) => {
   return state[group][(devIndex + 1) % state[group].length];
 };
 
-exports.notifyDiscord = functions.pubsub
+const BOLD_ANCHOR = '{bold}';
+const ITALIC_ANCHOR = '{italic}';
+
+const BOLD_REGEX = new RegExp(BOLD_ANCHOR, 'g');
+const ITALIC_REGEX = new RegExp(ITALIC_ANCHOR, 'g');
+
+const notifyDiscord = async message => {
+  const { discord } = functions.config();
+  const { token, channel } = discord || {};
+  if (!token || !channel) {
+    console.log('Discord disabled - no token or channel');
+    return;
+  }
+
+  discordClient.login(token);
+  console.log(`Logged into Discord as ${client.user.tag}`);
+
+  const textChannel = client.channels.find(
+    obj => obj.name === channel && obj.type === 'text',
+  );
+
+  if (!textChannel) {
+    console.log('Discord disabled - channel not found');
+    return;
+  }
+
+  await textChannel.send(
+    message.replace(BOLD_REGEX, '**').replace(ITALIC_REGEX, '*'),
+  );
+};
+
+const notifySlack = async message => {
+  const { slack } = functions.config();
+  const { token, channel } = slack || {};
+  if (!token || !channel) {
+    console.log('Slack disabled - no token or channel');
+    return;
+  }
+
+  await axios.post(
+    'https://slack.com/api/chat.postMessage',
+    {
+      channel,
+      text: message.replace(BOLD_REGEX, '*').replace(ITALIC_REGEX, '_'),
+      username: 'Daily Schedule Notifier',
+      icon_emoji: ':calendar:',
+    },
+    { headers: { authorization: `Bearer ${token}` } },
+  );
+};
+
+exports.dailyNotification = functions.pubsub
   .schedule('every day 08:00')
   .timeZone('America/Chicago')
   .onRun(async () => {
-    const { token, channel } = functions.config().discord;
     const today = moment()
       .utc()
       .hour(12)
@@ -40,17 +91,7 @@ exports.notifyDiscord = functions.pubsub
         .collection('state')
         .doc('on-call')
         .get(),
-      client.login(token),
     ]);
-
-    console.log(`Logged in as ${client.user.tag}`);
-
-    const textChannel = client.channels.find(
-      obj => obj.name === channel && obj.type === 'text',
-    );
-    if (!textChannel) {
-      throw new Error(`Text channel not found by the name "${channel}"`);
-    }
 
     const sections = [`Today is ${today.format('dddd, MMMM Do')}!`];
 
@@ -67,16 +108,22 @@ exports.notifyDiscord = functions.pubsub
       )
       .map(({ title, reason, duration, description }) =>
         [
-          `**${title.trim()}**`,
+          `${BOLD_ANCHOR}${title.trim()}${BOLD_ANCHOR}`,
           ' is ',
           REASONS[reason],
           ` ${DURATIONS[duration || 'allDay']}`,
-          description ? ` - *${description.trim()}*` : '',
+          description
+            ? ` - ${ITALIC_ANCHOR}${description.trim()}${ITALIC_ANCHOR}`
+            : '',
         ].join(''),
       );
 
     if (formattedEvents.length) {
-      sections.push(`*General*\n${formattedEvents.join('\n')}`);
+      sections.push(
+        `${ITALIC_ANCHOR}General${ITALIC_ANCHOR}\n${formattedEvents.join(
+          '\n',
+        )}`,
+      );
     }
 
     /* On Call */
@@ -89,9 +136,11 @@ exports.notifyDiscord = functions.pubsub
         const nextQA = nextOnCall(onCallState, 'qa');
         current = { ...current, developer: nextDev, qa: nextQA };
         sections.push(
-          `*Product*\n${nextDev ? `**${nextDev}**` : ''}${
-            nextDev && nextQA ? ' & ' : ''
-          }${nextQA ? `**${nextQA}**` : ''} are on-call today`,
+          `${ITALIC_ANCHOR}Product${ITALIC_ANCHOR}\n${
+            nextDev ? `${BOLD_ANCHOR}${nextDev}${BOLD_ANCHOR}` : ''
+          }${nextDev && nextQA ? ' & ' : ''}${
+            nextQA ? `${BOLD_ANCHOR}${nextQA}${BOLD_ANCHOR}` : ''
+          } are on-call today`,
         );
       }
 
@@ -102,7 +151,9 @@ exports.notifyDiscord = functions.pubsub
           support = nextOnCall(onCallState, 'support');
           current = { ...current, support };
         }
-        sections.push(`*Support*\n**${support}** is on-call today`);
+        sections.push(
+          `${ITALIC_ANCHOR}Support${ITALIC_ANCHOR}\n${BOLD_ANCHOR}${support}${BOLD_ANCHOR} is on-call today`,
+        );
       }
 
       await firestore
@@ -112,6 +163,9 @@ exports.notifyDiscord = functions.pubsub
     }
 
     if (sections.length > 1) {
-      await textChannel.send(sections.join(SECTION_SEPARATOR));
+      const message = sections.join(SECTION_SEPARATOR);
+      await Promise.all([notifyDiscord(message), notifySlack(message)]);
+    } else {
+      console.log('Messaging disabled - no events today');
     }
   });
