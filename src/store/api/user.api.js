@@ -1,6 +1,7 @@
 import {
   getAuth,
   signOut,
+  updateProfile,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -32,7 +33,7 @@ export const signup = ({ email, password, confirm, displayName }) => {
     email,
     password,
   ).then(response =>
-    response.user.updateProfile({ displayName }).then(() => response),
+    updateProfile(response.user, { displayName }).then(() => response),
   );
 };
 
