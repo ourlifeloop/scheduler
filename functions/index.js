@@ -34,9 +34,9 @@ const notifyDiscord = async message => {
   }
 
   discordClient.login(token);
-  console.log(`Logged into Discord as ${client.user.tag}`);
+  console.log(`Logged into Discord as ${discordClient.user.tag}`);
 
-  const textChannel = client.channels.find(
+  const textChannel = discordClient.channels.find(
     obj => obj.name === channel && obj.type === 'text',
   );
 
