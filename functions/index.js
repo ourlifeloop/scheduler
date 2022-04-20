@@ -33,7 +33,7 @@ const notifyDiscord = async message => {
     return;
   }
 
-  discordClient.login(token);
+  await discordClient.login(token);
   console.log(`Logged into Discord as ${discordClient.user.tag}`);
 
   const textChannel = discordClient.channels.find(
